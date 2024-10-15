@@ -1,0 +1,31 @@
+/* 添加 JSON 输入文本区域样式 */
+.json-input {
+    width: 400px; /* 宽度设置 */
+    height: 100px; /* 高度设置 */
+    padding: 10px;
+    font-size: 1em;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    margin-bottom: 10px;
+    transition: all 0.3s ease;
+    resize: none; /* 禁止调整大小 */
+}
+
+/* 新增按钮的样式 */
+.load-button {
+    padding: 10px 20px;
+    background-color: #28a745; /* 新增加载按钮颜色 */
+    color: #fff;
+    font-size: 1em;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-bottom: 10px; /* 按钮之间的间距 */
+}
+
+/* 当鼠标悬停在加载按钮时的效果 */
+.load-button:hover {
+    background-color: #218838;
+}
