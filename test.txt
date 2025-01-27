@@ -1,10 +1,10 @@
-General,#genre#
+李九制作全球电视,#genre#General,#genre#
 002-Radio-TV,https://cdn.002radio.com:3909/live/radio002live.m3u8
-Shop,#genre#
+李九制作全球电视,#genre#Shop,#genre#
 1001-Noites,https://cdn.jmvstream.com/w/LVW-8155/ngrp:LVW8155_41E1ciuCvO_all/playlist.m3u8
-Auto,#genre#
+李九制作全球电视,#genre#,Auto,#genre#
 100%-Auto-Moto-TV,http://100automoto.tv:1935/bgtv1/autotv/playlist.m3u8
-Business-News,#genre#
+李九制作全球电视,#genre#,Business-News,#genre#
 100%-NEWS,http://85.238.112.40:8810/hls_sec/239.33.16.32-.m3u8
 General,#genre#
 101tv-Axarquia,https://www.streaming101tv.es:19360/axarquia/axarquia.m3u8
