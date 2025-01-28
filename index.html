@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>195个国家3000多个电视节目</title>
+    <!-- 添加 CSS 文件 -->
+    <link rel="stylesheet" href="q.css">
+<script>
+        // right
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        // copy
+        document.addEventListener('copy', function(e) {
+            e.preventDefault();
+        });
+    </script>
+
+ 
+
+</head>
+<body>
+    <h1>独家覆盖195个国家本地正规电视台</h1>
+
+    <div class="player-container">
+        <!-- 频道选择下拉列表 -->
+        <select id="channelSelect" class="channel-select">
+            <option value="">最多稍等1分钟正在加载全球3000多个电视节目...</option>
+        </select>
+        <button id="playButton" class="play-button">左边下拉选择节目，点这里看世界电视</button>
+    </div>
+
+    <video id="videoPlayer" controls width="600" height="400" class="video-player"></video>
+
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script src="quq.js"></script>
+</body>
+</html>
