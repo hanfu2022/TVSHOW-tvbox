@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grok 对话</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .chat-container {
+            width: 100%;
+            max-width: 600px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .chat-header {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            font-size: 18px;
+            text-align: center;
+        }
+        .chat-box {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            max-height: 400px;
+        }
+        .message {
+            margin-bottom: 15px;
+            padding: 10px 15px;
+            border-radius: 8px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+        .user-message {
+            background-color: #007bff;
+            color: white;
+            margin-left: auto;
+            text-align: right;
+        }
+        .assistant-message {
+            background-color: #e9ecef;
+            color: #333;
+            margin-right: auto;
+        }
+        .input-container {
+            padding: 20px;
+            border-top: 1px solid #ddd;
+            display: flex;
+            gap: 10px;
+        }
+        #message-input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            outline: none;
+        }
+        #message-input:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+        }
+        #send-button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        #send-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">Grok 对话</div>
+        <div class="chat-box" id="chat-box"></div>
+        <div class="input-container">
+            <input type="text" id="message-input" placeholder="输入你的消息...">
+            <button id="send-button">发送</button>
+        </div>
+    </div>
+
+    <script>
+        const chatBox = document.getElementById('chat-box');
+        const messageInput = document.getElementById('message-input');
+        const sendButton = document.getElementById('send-button');
+
+        // 添加消息到对话框
+        function addMessage(content, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message');
+            messageDiv.classList.add(isUser ? 'user-message' : 'assistant-message');
+            messageDiv.textContent = content;
+            chatBox.appendChild(messageDiv);
+            chatBox.scrollTop = chatBox.scrollHeight; // 自动滚动到底部
+        }
+
+        // 发送消息到 Worker
+        async function sendMessage() {
+            const userMessage = messageInput.value.trim();
+            if (!userMessage) return;
+
+            // 显示用户消息
+            addMessage(userMessage, true);
+            messageInput.value = ''; // 清空输入框
+
+            try {
+                const response = await fetch('https://groe.hanfu2022.workers.dev/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ userMessage: userMessage })
+                });
+
+                if (!response.ok) {
+                    throw new Error('网络请求失败');
+                }
+
+                const data = await response.json();
+                const assistantReply = data.choices[0].message.content;
+                addMessage(assistantReply);
+            } catch (error) {
+                addMessage('错误: ' + error.message);
+            }
+        }
+
+        // 绑定发送按钮点击事件
+        sendButton.addEventListener('click', sendMessage);
+
+        // 按 Enter 键发送
+        messageInput.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>
