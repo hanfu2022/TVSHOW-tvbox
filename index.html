@@ -1,51 +1,67 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>手机上传图片</title>
+    <title>临时文件分享</title>
+    <!-- 样式部分保持不变 -->
 </head>
 <body>
-    <h2>上传图片并临时查看</h2>
-    <input type="file" id="fileInput" accept="image/*">
-    <button onclick="uploadAndView()">上传并查看</button>
-    <p id="status"></p>
-    <img id="preview" style="max-width: 100%; display: none;">
+    <div class="container">
+        <div class="upload-box">
+            <h2>上传文件或图片</h2>
+            <input type="file" id="fileInput" multiple>
+            <button onclick="uploadFiles()">上传</button>
+        </div>
+        <div class="file-list" id="fileList"></div>
+    </div>
 
     <script>
-        async function uploadAndView() {
+        async function uploadFiles() {
             const fileInput = document.getElementById('fileInput');
-            const status = document.getElementById('status');
-            const preview = document.getElementById('preview');
-            const file = fileInput.files[0];
-
-            if (!file) {
-                status.textContent = "请先选择一个图片！";
+            const files = fileInput.files;
+            if (!files.length) {
+                alert('请选择文件');
                 return;
             }
 
-            const formData = new FormData();
-            formData.append('file', file);
+            const fileList = document.getElementById('fileList');
+            fileList.innerHTML = '上传中...';
 
-            try {
-                status.textContent = "上传中...";
-                const response = await fetch('https://nopng.hanfu2022.workers.dev', {
-                    method: 'POST',
-                    body: formData,
-                });
+            for (let file of files) {
+                const formData = new FormData();
+                formData.append('file', file);
 
-                if (response.ok) {
-                    const blob = await response.blob();
-                    const imageUrl = URL.createObjectURL(blob);
-                    preview.src = imageUrl;
-                    preview.style.display = 'block';
-                    status.textContent = "上传成功，可临时查看！";
-                } else {
-                    status.textContent = "上传失败：" + response.statusText;
+                try {
+                    const response = await fetch('https://nopng.hanfu2022.workers.dev/upload', {
+                        method: 'POST',
+                        body: formData,
+                        signal: AbortSignal.timeout(30000)
+                    });
+
+                    if (response.ok) {
+                        const { url, expires } = await response.json();
+                        displayFile(file.name, url, expires);
+                    } else {
+                        throw new Error('上传失败');
+                    }
+                } catch (error) {
+                    console.error('上传错误:', error);
+                    alert('上传失败: ' + error.message);
                 }
-            } catch (error) {
-                status.textContent = "发生错误：" + error.message;
             }
+        }
+
+        function displayFile(name, url, expires) {
+            const fileList = document.getElementById('fileList');
+            const fileItem = document.createElement('div');
+            fileItem.className = 'file-item';
+            const expireTime = new Date(expires).toLocaleTimeString();
+            fileItem.innerHTML = `
+                <span>${name}</span>
+                <a href="${url}" target="_blank">下载 (有效至 ${expireTime})</a>
+            `;
+            fileList.appendChild(fileItem);
         }
     </script>
 </body>
