@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>代理访问 YouTube</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; }
+    input { width: 300px; padding: 8px; }
+    button { padding: 8px 16px; }
+    iframe { width: 100%; height: 500px; border: none; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h1>使用代理访问 YouTube</h1>
+  <p>请输入你想要访问的 YouTube 视频链接：</p>
+  <input type="text" id="ytUrl" placeholder="如 https://www.youtube.com/watch?v=dQw4w9WgXcQ">
+  <button onclick="loadVideo()">打开视频</button>
+
+  <iframe id="proxyFrame"></iframe>
+
+  <script>
+    function loadVideo() {
+      const url = document.getElementById('ytUrl').value.trim();
+      if (!url.startsWith('http')) {
+        alert('请输入有效的 YouTube 链接');
+        return;
+      }
+
+      // 把原始 YouTube 链接拼接到你的 Worker 上，作为代理地址
+      const proxyUrl = 'https://youtube.hanfu2022.workers.dev/' + url;
+      document.getElementById('proxyFrame').src = proxyUrl;
+    }
+  </script>
+</body>
+</html>
