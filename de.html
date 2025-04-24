@@ -7,104 +7,46 @@
     <style>
         body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
         header { background-color: #f8f9fa; padding: 1em; text-align: center; }
-        main { padding: 2em; margin-right: 320px; }
+        main { padding: 2em; margin-right: 320px; } /* Reserve space for floating sidebar */
         .product { border: 1px solid #ccc; border-radius: 5px; padding: 1em; margin-bottom: 1em; }
         .product h3 { margin: 0 0 0.5em; }
         .product p { margin: 0.5em 0; }
-
-        .floating-sidebar {
-            position: fixed;
-            top: 80px;
-            right: 20px;
-            width: 300px;
-            max-height: calc(100vh - 100px);
-            background-color: #ffffff;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            padding: 1em;
+        .floating-sidebar { 
+            position: fixed; 
+            top: 80px; 
+            right: 20px; 
+            width: 300px; 
+            max-height: calc(100vh - 100px); /* Ensure it fits within the screen */
+            background-color: #ffffff; 
+            border: 1px solid #ccc; 
+            border-radius: 5px; 
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+            padding: 1em; 
             z-index: 1000;
-            overflow-y: auto;
+            overflow-y: auto; /* Add scroll for content overflow */
         }
-
         .floating-sidebar h2 { font-size: 1.2em; margin-bottom: 1em; }
         .floating-sidebar ul { list-style-type: none; padding: 0; }
         .floating-sidebar ul li { margin-bottom: 0.5em; }
-
-        .floating-sidebar button {
-            width: 100%;
-            background-color: #007bff;
-            color: white;
-            padding: 0.5em;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
+        .floating-sidebar button { 
+            width: 100%; 
+            background-color: #007bff; 
+            color: white; 
+            padding: 0.5em; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
         }
-
         .floating-sidebar button:hover { background-color: #0056b3; }
         label { display: block; margin-bottom: 0.5em; }
-        input, textarea {
-            width: 100%;
-            padding: 0.5em;
-            margin-bottom: 1em;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
+        input, textarea, select { width: 100%; padding: 0.5em; margin-bottom: 1em; border: 1px solid #ccc; border-radius: 5px; }
+        #success-message { display: none; background-color: #d4edda; color: #155724; padding: 1em; border: 1px solid #c3e6cb; border-radius: 5px; margin-top: 1em; text-align: center; }
 
-        .payment-methods {
-            display: flex;
-            flex-direction: column;
-            gap: 1em;
-        }
-
-        .payment-methods label {
-            display: flex;
-            align-items: center;
-            gap: 0.5em;
-        }
-
-        .payment-methods input[type="radio"] {
-            width: auto;
-        }
-
-        /* Overlay popup */
-        #overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: rgba(0,0,0,0.6);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-        }
-        #popup {
-            background: white;
-            padding: 2em;
-            border-radius: 10px;
-            text-align: center;
-            font-size: 1.2em;
-            box-shadow: 0 0 20px rgba(0,0,0,0.3);
-        }
-        #popup button {
-            margin-top: 1em;
-            padding: 0.5em 1em;
-            background: #28a745;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 1em;
-            cursor: pointer;
-        }
-        #popup button:hover {
-            background: #218838;
-        }
-
+        /* Responsive Design for Small Screens */
         @media (max-width: 768px) {
-            main { margin-right: 0; }
+            main { margin-right: 0; } /* Remove reserved space for the sidebar */
             .floating-sidebar {
-                position: static;
+                position: static; /* Make the sidebar flow with the page */
                 width: auto;
                 max-height: none;
                 margin-bottom: 1em;
@@ -155,34 +97,21 @@
                 <textarea id="address" name="address" placeholder="z.B. Teststraße 123, 12345 Berlin" required></textarea>
 
                 <label for="payment">Zahlungsmethode:</label>
-                <div class="payment-methods">
-                    <label>
-                        <input type="radio" name="payment" value="bank_transfer" checked>
-                        Banküberweisung
-                    </label>
-                    <label>
-                        <input type="radio" name="payment" value="cash_on_delivery" >
-                        Nachnahme
-                    </label>
-                </div>
+                <select id="payment" name="payment" required>
+                    <option value="bank_transfer">Banküberweisung</option>
+                    <option value="cash_on_delivery">Nachnahme</option>
+                </select>
 
                 <button type="submit">Bestellen</button>
             </form>
         </div>
     </aside>
 
-    <!-- ✅ 成功提示弹窗 -->
-    <div id="overlay">
-        <div id="popup">
-            <p id="popup-message"></p>
-            <button onclick="closePopup()">OK</button>
-        </div>
-    </div>
-
     <script>
         const cartItems = [];
         const cartList = document.getElementById('cart-items');
 
+        // Funktion zum Aktualisieren des Warenkorbs
         function updateCart() {
             cartList.innerHTML = "";
             if (cartItems.length === 0) {
@@ -196,6 +125,7 @@
             }
         }
 
+        // Produkte zum Warenkorb hinzufügen
         document.querySelectorAll('.add-to-cart').forEach(button => {
             button.addEventListener('click', (e) => {
                 const product = e.target.closest('.product').dataset.product;
@@ -204,11 +134,13 @@
             });
         });
 
+        // Produkt aus dem Warenkorb entfernen
         window.removeFromCart = (index) => {
             cartItems.splice(index, 1);
             updateCart();
         };
 
+        // Bestellung absenden
         document.getElementById('orderForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             if (cartItems.length === 0) {
@@ -218,31 +150,23 @@
 
             const formData = new FormData(e.target);
             const order = Object.fromEntries(formData.entries());
-            order.products = cartItems;
+            order.products = cartItems; // Füge Produkte aus dem Warenkorb hinzu
 
-            // 生成一个随机订单编号
-            const orderNumber = 'ORD-' + Math.floor(Math.random() * 1000000);
+            const response = await fetch('https://order.hanfu2022.workers.dev/submit', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(order),
+            });
 
-            let popupMessage = `Ihre Bestellung wurde erfolgreich aufgenommen!<br>Bestellnummer: ${orderNumber}<br>`;
-
-            if (order.payment === 'bank_transfer') {
-                popupMessage += `<strong>Banküberweisungsdetails:</strong><br>
-                                 Kontoinhaber: Ihr Shop Name<br>
-                                 IBAN: DE12345678901234567890<br>
-                                 BIC: DEUTDEDBXXX<br>
-                                 Verwendungszweck: ${orderNumber}`;
+            if (response.ok) {
+                alert("Ihre Bestellung wurde erfolgreich aufgenommen! Vielen Dank!");
+                document.getElementById('orderForm').reset(); // Reset the form
+                cartItems.length = 0; // Warenkorb leeren
+                updateCart();
+            } else {
+                alert("Fehler beim Absenden der Bestellung. Bitte versuchen Sie es erneut.");
             }
-
-            document.getElementById('popup-message').innerHTML = popupMessage;
-            document.getElementById('overlay').style.display = 'flex';
         });
-
-        function closePopup() {
-            document.getElementById('overlay').style.display = 'none';
-            document.getElementById('orderForm').reset();
-            cartItems.length = 0;
-            updateCart();
-        }
     </script>
 </body>
 </html>
