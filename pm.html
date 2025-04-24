@@ -42,49 +42,110 @@
         input, textarea, select { width: 100%; padding: 0.5em; margin-bottom: 1em; border: 1px solid #ccc; border-radius: 5px; }
         #success-message { display: none; background-color: #d4edda; color: #155724; padding: 1em; border: 1px solid #c3e6cb; border-radius: 5px; margin-top: 1em; text-align: center; }
 
-        /* Payment method card styling */
-        .payment-method {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 1em;
-            padding: 1em;
-            border: 1px solid #ccc;
+        /* 模态窗口样式 */
+        #modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1001;
+        }
+
+        #modal > div {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 2em;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        #modal button {
+            padding: 0.5em 1em;
+            background-color: #007bff;
+            color: white;
+            border: none;
             border-radius: 5px;
-            transition: all 0.3s ease-in-out;
             cursor: pointer;
         }
 
-        .payment-method.selected {
+        #modal button:hover {
+            background-color: #0056b3;
+        }
+
+        /* 支付方式样式 */
+        #payment-options {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1em;
+        }
+
+        .payment-option {
+            width: 48%;
+            cursor: pointer;
+        }
+
+        .option-card {
+            padding: 1em;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+            text-align: center;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .option-card h3 {
+            margin: 0;
+            font-size: 1.1em;
+        }
+
+        .note {
+            font-size: 0.9em;
+            color: #007bff; /* 提示颜色 */
+        }
+
+        /* 鼠标悬停时卡片变化 */
+        .payment-option:hover .option-card {
+            background-color: #e0f7fa; /* 背景色变化 */
+            transform: scale(1.05); /* 放大效果 */
+        }
+
+        /* 选择时的卡片高亮 */
+        .payment-option.selected .option-card {
             background-color: #007bff;
             color: white;
         }
 
-        .payment-method small {
-            font-size: 0.8em;
-            color: #6c757d;
-        }
-
-        .payment-method:hover {
-            background-color: #0056b3;
-            color: white;
-        }
-
-        .payment-info {
+        #bank-transfer-info {
             display: none;
+            background-color: #f1f1f1;
             padding: 1em;
-            margin-top: 1em;
-            background-color: #f8f9fa;
-            border: 1px solid #ccc;
             border-radius: 5px;
+            margin-top: 1em;
+            border: 1px solid #ddd;
         }
 
-        /* Responsive Design for Small Screens */
+        /* 提示文字样式 */
+        #bank-transfer .note {
+            font-size: 0.8em;
+            color: #28a745; /* 突出颜色 */
+        }
+
+        /* 响应式设计 */
         @media (max-width: 768px) {
-            main { margin-right: 0; }
-            .floating-sidebar {
-                position: static;
-                width: auto;
-                max-height: none;
+            #payment-options {
+                flex-direction: column;
+                align-items: center;
+            }
+            .payment-option {
+                width: 100%;
                 margin-bottom: 1em;
             }
         }
@@ -133,20 +194,26 @@
                 <textarea id="address" name="address" placeholder="z.B. Teststraße 123, 12345 Berlin" required></textarea>
 
                 <label for="payment">Zahlungsmethode:</label>
-                <div class="payment-method selected" id="bank-transfer" data-method="bank_transfer">
-                    <span>Banküberweisung</span>
-                    <small>9% Rabatt</small>
-                </div>
-                <div class="payment-method" id="cash-on-delivery" data-method="cash_on_delivery">
-                    <span>Nachnahme</span>
+                <div id="payment-options">
+                    <div class="payment-option" id="bank-transfer" data-payment="bank_transfer">
+                        <div class="option-card">
+                            <h3>Banküberweisung</h3>
+                            <p class="note">※ Es gibt einen Rabatt bei Auswahl der Banküberweisung.</p>
+                        </div>
+                    </div>
+                    <div class="payment-option" id="cash-on-delivery" data-payment="cash_on_delivery">
+                        <div class="option-card">
+                            <h3>Nachnahme</h3>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="payment-info" id="bank-info">
-                    <h3>Banküberweisungsdetails</h3>
-                    <p>Bitte überweisen Sie den Betrag auf folgendes Konto:</p>
-                    <p>Bank: Beispielbank</p>
+                <div id="bank-transfer-info" class="payment-info">
+                    <h4>Banküberweisung Informationen:</h4>
+                    <p>Bankname: Musterbank</p>
+                    <p>Kontonummer: 1234567890</p>
                     <p>IBAN: DE12345678901234567890</p>
-                    <p>BIC: BEISDEFF</p>
+                    <p>BIC: DEUTDEDB123</p>
                 </div>
 
                 <button type="submit">Bestellen</button>
@@ -154,14 +221,20 @@
         </div>
     </aside>
 
+    <!-- 模态窗口 -->
+    <div id="modal">
+        <div>
+            <h2>Ihre Bestellung wurde erfolgreich aufgenommen!</h2>
+            <p>Vielen Dank für Ihre Bestellung. Wir kümmern uns darum!</p>
+            <button onclick="closeModal()">Schließen</button>
+        </div>
+    </div>
+
     <script>
         const cartItems = [];
         const cartList = document.getElementById('cart-items');
-        const orderForm = document.getElementById('orderForm');
-        const paymentMethods = document.querySelectorAll('.payment-method');
-        const bankInfo = document.getElementById('bank-info');
 
-        // Funktion zum Aktualisieren des Warenkorbs
+        // 更新购物车
         function updateCart() {
             cartList.innerHTML = "";
             if (cartItems.length === 0) {
@@ -175,69 +248,67 @@
             }
         }
 
-        // Produkte zum Warenkorb hinzufügen
-        document.querySelectorAll('.add-to-cart').forEach(button => {
-            button.addEventListener('click', (e) => {
-                const product = e.target.closest('.product').dataset.product;
+        // 添加商品到购物车
+        const addToCartButtons = document.querySelectorAll(".add-to-cart");
+        addToCartButtons.forEach(button => {
+            button.addEventListener("click", () => {
+                const product = button.closest(".product").getAttribute("data-product");
                 cartItems.push({ product });
                 updateCart();
             });
         });
 
-        // Produkt aus dem Warenkorb entfernen
-        window.removeFromCart = (index) => {
+        // 移除商品
+        function removeFromCart(index) {
             cartItems.splice(index, 1);
             updateCart();
-        };
+        }
 
-        // Zahlungsoption auswählen
-        paymentMethods.forEach(method => {
-            method.addEventListener('click', (e) => {
-                const selectedMethod = e.target.closest('.payment-method');
-                const methodId = selectedMethod.dataset.method;
-
-                // Deselect all and select the clicked one
-                paymentMethods.forEach(m => m.classList.remove('selected'));
-                selectedMethod.classList.add('selected');
-
-                // Handle Banküberweisung special case
-                if (methodId === 'bank_transfer') {
-                    bankInfo.style.display = 'block';
-                    // Apply 9% discount
-                    alert('Mit Banküberweisung erhalten Sie 9% Rabatt!');
-                } else {
-                    bankInfo.style.display = 'none';
-                }
+        // 选择支付方式
+        const paymentOptions = document.querySelectorAll('.payment-option');
+        paymentOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                paymentOptions.forEach(opt => opt.classList.remove('selected'));
+                option.classList.add('selected');
+                toggleBankTransferInfo(option.id);
             });
         });
 
-        // Bestellung absenden
-        orderForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            if (cartItems.length === 0) {
-                alert("Bitte fügen Sie Produkte zu Ihrem Warenkorb hinzu.");
-                return;
-            }
-
-            const formData = new FormData(e.target);
-            const order = Object.fromEntries(formData.entries());
-            order.products = cartItems; 
-
-            const response = await fetch('https://order.hanfu2022.workers.dev/submit', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(order),
-            });
-
-            if (response.ok) {
-                alert("Ihre Bestellung wurde erfolgreich aufgenommen! Vielen Dank!");
-                document.getElementById('orderForm').reset();
-                cartItems.length = 0;
-                updateCart();
+        function toggleBankTransferInfo(paymentMethod) {
+            const bankTransferInfo = document.getElementById('bank-transfer-info');
+            if (paymentMethod === 'bank-transfer') {
+                bankTransferInfo.style.display = 'block';
             } else {
-                alert("Fehler beim Absenden der Bestellung. Bitte versuchen Sie es erneut.");
+                bankTransferInfo.style.display = 'none';
             }
+        }
+
+        // 提交订单
+        const orderForm = document.getElementById('orderForm');
+        orderForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            showSuccessMessage();
         });
+
+        // 显示成功消息
+        function showSuccessMessage() {
+            const successMessage = document.createElement('div');
+            successMessage.id = 'success-message';
+            successMessage.innerHTML = "Ihre Bestellung wurde erfolgreich aufgenommen!";
+            document.body.appendChild(successMessage);
+            setTimeout(() => {
+                successMessage.remove();
+            }, 5000);
+        }
+
+        // 显示模态窗口
+        function showModal() {
+            document.getElementById('modal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
     </script>
 </body>
 </html>
