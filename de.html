@@ -119,7 +119,7 @@
             } else {
                 cartItems.forEach((item, index) => {
                     const li = document.createElement("li");
-                    li.innerHTML = ${item.product} <button onclick="removeFromCart(${index})">Entfernen</button>;
+                    li.innerHTML = `${item.product} <button onclick="removeFromCart(${index})">Entfernen</button>`;
                     cartList.appendChild(li);
                 });
             }
