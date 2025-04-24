@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bestellübersicht</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+        header { background-color: #f8f9fa; padding: 1em; text-align: center; }
+        .container { padding: 2em; }
+        table { width: 100%; border-collapse: collapse; margin-top: 2em; }
+        th, td { padding: 1em; border: 1px solid #ddd; text-align: left; }
+        th { background-color: #f2f2f2; }
+        button { padding: 0.5em 1em; background-color: #e74c3c; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background-color: #c0392b; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Bestellübersicht</h1>
+    </header>
+    <div class="container" id="login-container">
+        <h2>Login</h2>
+        <input type="password" id="admin-password" placeholder="Passwort eingeben">
+        <button onclick="verifyPassword()">Einloggen</button>
+    </div>
+
+    <div class="container" id="orders-container" style="display:none;">
+        <h2>Alle Bestellungen</h2>
+        <table id="orders-table">
+            <thead>
+                <tr>
+                    <th>Bestellnummer</th>
+                    <th>E-Mail-Adresse</th>
+                    <th>Lieferadresse</th>
+                    <th>Zahlungsmethode</th>
+                    <th>Aktionen</th>
+                </tr>
+            </thead>
+            <tbody id="orders-list"></tbody>
+        </table>
+    </div>
+
+    <script>
+        let token = '';
+
+        // Function to verify admin password
+        function verifyPassword() {
+            const pw = document.getElementById('admin-password').value;
+            fetch('https://des.hanfu2022.workers.dev/admin-login', { // Updated URL for your worker
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ password: pw })
+            }).then(res => {
+                if (res.ok) {
+                    return res.text();
+                } else {
+                    throw new Error("Falsches Passwort");
+                }
+            }).then(t => {
+                token = t; // Set the token received from the server
+                document.getElementById('login-container').style.display = 'none';
+                document.getElementById('orders-container').style.display = 'block';
+                fetchOrders();
+            }).catch(err => alert(err.message));
+        }
+
+        // Function to fetch all orders
+        async function fetchOrders() {
+            const response = await fetch('https://des.hanfu2022.workers.dev/orders', { // Updated URL for your worker
+                headers: { 'Authorization': 'Bearer ' + token }
+            });
+            const orders = await response.json();
+            displayOrders(orders);
+        }
+
+        // Function to display orders in the table
+        function displayOrders(orders) {
+            const ordersList = document.getElementById('orders-list');
+            ordersList.innerHTML = ''; // Clear current orders
+
+            orders.forEach(order => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${order.orderId}</td>
+                    <td>${order.email}</td>
+                    <td>${order.address}</td>
+                    <td>${order.payment}</td>
+                    <td><button onclick="deleteOrder('${order.orderId}')">Löschen</button></td>
+                `;
+                ordersList.appendChild(row);
+            });
+        }
+
+        // Function to delete an order
+        async function deleteOrder(orderId) {
+            const confirmation = confirm('Sind Sie sicher, dass Sie diese Bestellung löschen möchten?');
+            if (confirmation) {
+                const response = await fetch(`https://des.hanfu2022.workers.dev/order/${orderId}`, { // Updated URL for your worker
+                    method: 'DELETE',
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
+                if (response.ok) {
+                    alert('Bestellung gelöscht!');
+                    fetchOrders(); // Refresh the list
+                } else {
+                    alert('Fehler beim Löschen der Bestellung.');
+                }
+            }
+        }
+    </script>
+</body>
+</html>
