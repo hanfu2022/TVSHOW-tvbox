@@ -231,84 +231,116 @@
     </div>
 
     <script>
-        const cartItems = [];
-        const cartList = document.getElementById('cart-items');
+    const cartItems = [];
+    const cartList = document.getElementById('cart-items');
 
-        // 更新购物车
-        function updateCart() {
-            cartList.innerHTML = "";
-            if (cartItems.length === 0) {
-                cartList.innerHTML = "<li>Ihr Warenkorb ist leer.</li>";
-            } else {
-                cartItems.forEach((item, index) => {
-                    const li = document.createElement("li");
-                    li.innerHTML = `${item.product} <button onclick="removeFromCart(${index})">Entfernen</button>`;
-                    cartList.appendChild(li);
-                });
-            }
+    // 更新购物车
+    function updateCart() {
+        cartList.innerHTML = "";
+        if (cartItems.length === 0) {
+            cartList.innerHTML = "<li>Ihr Warenkorb ist leer.</li>";
+        } else {
+            cartItems.forEach((item, index) => {
+                const li = document.createElement("li");
+                li.innerHTML = `${item.product} <button onclick="removeFromCart(${index})">Entfernen</button>`;
+                cartList.appendChild(li);
+            });
         }
 
-        // 添加商品到购物车
-        const addToCartButtons = document.querySelectorAll(".add-to-cart");
-        addToCartButtons.forEach(button => {
-            button.addEventListener("click", () => {
-                const product = button.closest(".product").getAttribute("data-product");
-                cartItems.push({ product });
-                updateCart();
-            });
-        });
+        // === 新增：如果购物车为空则禁用提交按钮 ===
+        toggleSubmitButton();
+    }
 
-        // 移除商品
-        function removeFromCart(index) {
-            cartItems.splice(index, 1);
+    // 添加商品到购物车
+    const addToCartButtons = document.querySelectorAll(".add-to-cart");
+    addToCartButtons.forEach(button => {
+        button.addEventListener("click", () => {
+            const product = button.closest(".product").getAttribute("data-product");
+            cartItems.push({ product });
             updateCart();
-        }
-
-        // 选择支付方式
-        const paymentOptions = document.querySelectorAll('.payment-option');
-        paymentOptions.forEach(option => {
-            option.addEventListener('click', () => {
-                paymentOptions.forEach(opt => opt.classList.remove('selected'));
-                option.classList.add('selected');
-                toggleBankTransferInfo(option.id);
-            });
         });
+    });
 
-        function toggleBankTransferInfo(paymentMethod) {
-            const bankTransferInfo = document.getElementById('bank-transfer-info');
-            if (paymentMethod === 'bank-transfer') {
-                bankTransferInfo.style.display = 'block';
-            } else {
-                bankTransferInfo.style.display = 'none';
-            }
-        }
+    // 移除商品
+    function removeFromCart(index) {
+        cartItems.splice(index, 1);
+        updateCart();
+    }
 
-        // 提交订单
-        const orderForm = document.getElementById('orderForm');
-        orderForm.addEventListener('submit', (event) => {
-            event.preventDefault();
-            showSuccessMessage();
+    // 选择支付方式
+    const paymentOptions = document.querySelectorAll('.payment-option');
+    let selectedPayment = null; // === 新增：记录已选择的支付方式 ===
+    paymentOptions.forEach(option => {
+        option.addEventListener('click', () => {
+            paymentOptions.forEach(opt => opt.classList.remove('selected'));
+            option.classList.add('selected');
+            selectedPayment = option.id; // === 新增：保存当前选择 ===
+            toggleBankTransferInfo(option.id);
+            toggleSubmitButton(); // === 新增：尝试启用提交按钮 ===
         });
+    });
 
-        // 显示成功消息
-        function showSuccessMessage() {
-            const successMessage = document.createElement('div');
-            successMessage.id = 'success-message';
-            successMessage.innerHTML = "Ihre Bestellung wurde erfolgreich aufgenommen!";
-            document.body.appendChild(successMessage);
-            setTimeout(() => {
-                successMessage.remove();
-            }, 5000);
+    function toggleBankTransferInfo(paymentMethod) {
+        const bankTransferInfo = document.getElementById('bank-transfer-info');
+        if (paymentMethod === 'bank-transfer') {
+            bankTransferInfo.style.display = 'block';
+        } else {
+            bankTransferInfo.style.display = 'none';
+        }
+    }
+
+    // === 新增：根据条件启用/禁用提交按钮 ===
+    function toggleSubmitButton() {
+        const submitButton = document.querySelector('#orderForm button[type="submit"]');
+        const cartNotEmpty = cartItems.length > 0;
+        const paymentChosen = selectedPayment !== null;
+        submitButton.disabled = !(cartNotEmpty && paymentChosen);
+    }
+
+    // 提交订单
+    const orderForm = document.getElementById('orderForm');
+    orderForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        // === 新增：再次校验购物车和支付方式 ===
+        if (cartItems.length === 0) {
+            alert("Ihr Warenkorb ist leer. Bitte fügen Sie Artikel hinzu.");
+            return;
         }
 
-        // 显示模态窗口
-        function showModal() {
-            document.getElementById('modal').style.display = 'block';
+        if (!selectedPayment) {
+            alert("Bitte wählen Sie eine Zahlungsmethode.");
+            return;
         }
 
-        function closeModal() {
-            document.getElementById('modal').style.display = 'none';
-        }
-    </script>
+        showSuccessMessage();
+    });
+
+    // 显示成功消息
+    function showSuccessMessage() {
+        const successMessage = document.createElement('div');
+        successMessage.id = 'success-message';
+        successMessage.innerHTML = "Ihre Bestellung wurde erfolgreich aufgenommen!";
+        document.body.appendChild(successMessage);
+        setTimeout(() => {
+            successMessage.remove();
+        }, 5000);
+    }
+
+    // 显示模态窗口
+    function showModal() {
+        document.getElementById('modal').style.display = 'block';
+    }
+
+    function closeModal() {
+        document.getElementById('modal').style.display = 'none';
+    }
+
+    // === 新增：页面加载时禁用提交按钮 ===
+    window.addEventListener('DOMContentLoaded', () => {
+        toggleSubmitButton();
+    });
+</script>
+
 </body>
 </html>
