@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop für Dessous</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+        header { background-color: #f8f9fa; padding: 1em; text-align: center; }
+        main { padding: 2em; margin-right: 320px; } /* Reserve space for floating sidebar */
+        .product { border: 1px solid #ccc; border-radius: 5px; padding: 1em; margin-bottom: 1em; }
+        .product h3 { margin: 0 0 0.5em; }
+        .product p { margin: 0.5em 0; }
+        .floating-sidebar { 
+            position: fixed; 
+            top: 80px; 
+            right: 20px; 
+            width: 300px; 
+            max-height: calc(100vh - 100px); /* Ensure it fits within the screen */
+            background-color: #ffffff; 
+            border: 1px solid #ccc; 
+            border-radius: 5px; 
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+            padding: 1em; 
+            z-index: 1000;
+            overflow-y: auto; /* Add scroll for content overflow */
+        }
+        .floating-sidebar h2 { font-size: 1.2em; margin-bottom: 1em; }
+        .floating-sidebar ul { list-style-type: none; padding: 0; }
+        .floating-sidebar ul li { margin-bottom: 0.5em; }
+        .floating-sidebar button { 
+            width: 100%; 
+            background-color: #007bff; 
+            color: white; 
+            padding: 0.5em; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+        }
+        .floating-sidebar button:hover { background-color: #0056b3; }
+        label { display: block; margin-bottom: 0.5em; }
+        input, textarea, select { width: 100%; padding: 0.5em; margin-bottom: 1em; border: 1px solid #ccc; border-radius: 5px; }
+        #success-message { display: none; background-color: #d4edda; color: #155724; padding: 1em; border: 1px solid #c3e6cb; border-radius: 5px; margin-top: 1em; text-align: center; }
+
+        /* Responsive Design for Small Screens */
+        @media (max-width: 768px) {
+            main { margin-right: 0; } /* Remove reserved space for the sidebar */
+            .floating-sidebar {
+                position: static; /* Make the sidebar flow with the page */
+                width: auto;
+                max-height: none;
+                margin-bottom: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Online Shop für Dessous</h1>
+    </header>
+    <main>
+        <h2>Unsere Produkte</h2>
+        <div class="product" data-product="Elegantes Nachthemd - €49.99">
+            <h3>Elegantes Nachthemd</h3>
+            <p>Preis: €49.99</p>
+            <p>Beschreibung: Hochwertiges Nachthemd aus Seide.</p>
+            <button class="add-to-cart">In den Warenkorb</button>
+        </div>
+        <div class="product" data-product="Spitze Unterwäsche - €29.99">
+            <h3>Spitze Unterwäsche</h3>
+            <p>Preis: €29.99</p>
+            <p>Beschreibung: Komfortable und sexy Unterwäsche.</p>
+            <button class="add-to-cart">In den Warenkorb</button>
+        </div>
+        <div class="product" data-product="Satin Bademantel - €39.99">
+            <h3>Satin Bademantel</h3>
+            <p>Preis: €39.99</p>
+            <p>Beschreibung: Luxuriöser Satin Bademantel für besondere Anlässe.</p>
+            <button class="add-to-cart">In den Warenkorb</button>
+        </div>
+    </main>
+
+    <aside class="floating-sidebar">
+        <div class="cart">
+            <h2>Warenkorb</h2>
+            <ul id="cart-items">
+                <li>Ihr Warenkorb ist leer.</li>
+            </ul>
+        </div>
+        <div class="order">
+            <h2>Bestellung aufgeben</h2>
+            <form id="orderForm">
+                <label for="email">E-Mail-Adresse:</label>
+                <input type="email" id="email" name="email" placeholder="z.B. user@example.com" required>
+
+                <label for="address">Lieferadresse:</label>
+                <textarea id="address" name="address" placeholder="z.B. Teststraße 123, 12345 Berlin" required></textarea>
+
+                <label for="payment">Zahlungsmethode:</label>
+                <select id="payment" name="payment" required>
+                    <option value="bank_transfer">Banküberweisung</option>
+                    <option value="cash_on_delivery">Nachnahme</option>
+                </select>
+
+                <button type="submit">Bestellen</button>
+            </form>
+        </div>
+    </aside>
+
+    <script>
+        const cartItems = [];
+        const cartList = document.getElementById('cart-items');
+
+        // Funktion zum Aktualisieren des Warenkorbs
+        function updateCart() {
+            cartList.innerHTML = "";
+            if (cartItems.length === 0) {
+                cartList.innerHTML = "<li>Ihr Warenkorb ist leer.</li>";
+            } else {
+                cartItems.forEach((item, index) => {
+                    const li = document.createElement("li");
+                    li.innerHTML = `${item.product} <button onclick="removeFromCart(${index})">Entfernen</button>`;
+                    cartList.appendChild(li);
+                });
+            }
+        }
+
+        // Produkte zum Warenkorb hinzufügen
+        document.querySelectorAll('.add-to-cart').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const product = e.target.closest('.product').dataset.product;
+                cartItems.push({ product });
+                updateCart();
+            });
+        });
+
+        // Produkt aus dem Warenkorb entfernen
+        window.removeFromCart = (index) => {
+            cartItems.splice(index, 1);
+            updateCart();
+        };
+
+        // Bestellung absenden
+        document.getElementById('orderForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (cartItems.length === 0) {
+                alert("Bitte fügen Sie Produkte zu Ihrem Warenkorb hinzu.");
+                return;
+            }
+
+            const formData = new FormData(e.target);
+            const order = Object.fromEntries(formData.entries());
+            order.products = cartItems; // Füge Produkte aus dem Warenkorb hinzu
+
+            const response = await fetch('https://order.hanfu2022.workers.dev/submit', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(order),
+            });
+
+            if (response.ok) {
+                alert("Ihre Bestellung wurde erfolgreich aufgenommen! Vielen Dank!");
+                document.getElementById('orderForm').reset(); // Reset the form
+                cartItems.length = 0; // Warenkorb leeren
+                updateCart();
+            } else {
+                alert("Fehler beim Absenden der Bestellung. Bitte versuchen Sie es erneut.");
+            }
+        });
+    </script>
+</body>
+</html>
