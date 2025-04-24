@@ -119,7 +119,7 @@
             } else {
                 cartItems.forEach((item, index) => {
                     const li = document.createElement("li");
-                    li.innerHTML = `${item.product} <button onclick="removeFromCart(${index})">Entfernen</button>`;
+                    li.innerHTML = `${item} <button onclick="removeFromCart(${index})">Entfernen</button>`;
                     cartList.appendChild(li);
                 });
             }
@@ -129,7 +129,7 @@
         document.querySelectorAll('.add-to-cart').forEach(button => {
             button.addEventListener('click', (e) => {
                 const product = e.target.closest('.product').dataset.product;
-                cartItems.push({ product });
+                cartItems.push(product);  // 使用产品字符串而非对象
                 updateCart();
             });
         });
@@ -150,7 +150,7 @@
 
             const formData = new FormData(e.target);
             const order = Object.fromEntries(formData.entries());
-            order.products = cartItems; // Füge Produkte aus dem Warenkorb hinzu
+            order.products = cartItems;  // 将产品字符串数组添加到订单数据中
 
             const response = await fetch('https://order.hanfu2022.workers.dev/submit', {
                 method: 'POST',
