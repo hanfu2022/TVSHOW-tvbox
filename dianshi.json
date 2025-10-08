@@ -118,7 +118,7 @@
 {"key":"有声小说js","name":"李九小说频道","type":3,"api":"./FTY/drpy2.min.js","ext":"./FTY/有声小说吧.js","style":{"type":"rect","ratio":1},"searchable": 0,"quickSearch": 0,"changeable":0},
 {"key":"Aid","name":"李九医学急救教学频道","type":3,"api":"csp_FirstAid","searchable":0,"quickSearch":0,"changeable":0,"style": { "type": "rect", "ratio":3.8}},
 
-{"key":"Bili","name":"🅱哔哔┃合集","type": 3,"api": "csp_Bili","style":{"type":"rect","ratio":1.597},"searchable":1,"quickSearch":0,"changeable":0,"ext":"./FTY/bilibili.json"},
+
 {"key":"Biliych","name":"🅱明星┃演唱会","type": 3,"api": "csp_Bili","style":{"type":"rect","ratio":1.597},"searchable":1,"quickSearch":0,"changeable":0,"ext":"./FTY/biliych.json"},
 
 
@@ -128,15 +128,19 @@
     
 
     
-{"key":"drpy_js_哔哩影视","name":"弹幕 | 哔哩影视[js]","type":3,"api":"./lib/drpy2.min.js","style":{"type":"rect","ratio":1.597},"changeable":0,"ext":"./js/哔哩影视.js"},
-
-{"key":"drpy_js_斗鱼直播","name":"直播 | 斗鱼[js]","type":3,"api":"./lib/drpy2.min.js","style":{"type":"rect","ratio":1.597},"changeable":0,"ext":"./js/斗鱼直播.js"},
-{"key":"drpy_js_虎牙直播","name":"直播 | 虎牙[js]","type":3,"api":"./lib/drpy2.min.js","style":{"type":"rect","ratio":1.597},"changeable":0,"ext":"./js/虎牙直播.js"},
 
 
-{"key":"drpy_js_相声随身听","name":"相声 | 相声随身听[js]","type":3,"api":"./lib/drpy2.min.js","changeable":0,"ext":"./js/相声随身听.js"},
-{"key":"drpy_js_评书随身听","name":"评书 | 评书随身听[js]","type":3,"api":"./lib/drpy2.min.js","changeable":0,"ext":"./js/评书随身听.js"},
-{"key":"drpy_js_武享吧","name":"格斗 | 武享吧[js]","type":3,"api":"./lib/drpy2.min.js","changeable":0,"ext":"./js/武享吧.js"},
+{"key":"drpy_js_斗鱼直播","name":"李九直播频道|斗鱼台","type":3,"api":"./lib/drpy2.min.js","style":{"type":"rect","ratio":1.597},"changeable":0,"ext":"./js/斗鱼直播.js"},
+{"key":"drpy_js_虎牙直播","name":"李九直播频道| 虎牙台","type":3,"api":"./lib/drpy2.min.js","style":{"type":"rect","ratio":1.597},"changeable":0,"ext":"./js/虎牙直播.js"},
+
+
+{"key":"drpy_js_相声随身听","name":"李九相声频道","type":3,"api":"./lib/drpy2.min.js","changeable":0,"ext":"./js/相声随身听.js"},
+{"key":"drpy_js_评书随身听","name":"李九评书频道1","type":3,"api":"./lib/drpy2.min.js","changeable":0,"ext":"./js/评书随身听.js"},
+{"key":"drpy_js_i275听书","name":"李九评书频道2","type":3,"api":"./lib/drpy2.min.js","changeable":0,"style":{"type":"rect","ratio":1},"ext":"./js/i275听书.js"},
+{"key":"drpy_js_爱上你听书网","name":"李九评书频道3","type":3,"api":"./lib/drpy2.min.js","changeable":0,"style":{"type":"rect","ratio":1},"ext":"./js/爱上你听书网.js"},
+{"key":"drpy_js_博看听书","name":"李九评书频道4","type":3,"api":"./lib/drpy2.min.js","changeable":0,"style":{"type":"rect","ratio":1},"ext":"./js/博看听书.js"},
+
+{"key":"drpy_js_武享吧","name":"李九体育频道","type":3,"api":"./lib/drpy2.min.js","changeable":0,"ext":"./js/武享吧.js"},
 
 
 
@@ -149,18 +153,15 @@
 {"key":"drpy_js_清风DJ","name":"音频 | 清风DJ[js]","type":3,"api":"./lib/drpy2.min.js","changeable":0,"style":{"type":"rect","ratio":1},"ext":"./js/清风DJ.js"},
     
 
-{"key":"drpy_js_i275听书","name":"听书 | i275听书[js]","type":3,"api":"./lib/drpy2.min.js","changeable":0,"style":{"type":"rect","ratio":1},"ext":"./js/i275听书.js"},
-{"key":"drpy_js_爱上你听书网","name":"听书 | 爱上你听书[js]","type":3,"api":"./lib/drpy2.min.js","changeable":0,"style":{"type":"rect","ratio":1},"ext":"./js/爱上你听书网.js"},
-{"key":"drpy_js_博看听书","name":"听书 | 博看听书[js]","type":3,"api":"./lib/drpy2.min.js","changeable":0,"style":{"type":"rect","ratio":1},"ext":"./js/博看听书.js"},
 
-{"key":"drpy_js_网易公版影像","name":"聚合 | 网易公版[js]","type":3,"api":"./lib/drpy2.min.js","changeable":0,"style":{"type":"rect","ratio":1.597},"ext":"./js/网易公版影像.js"},
+{"key":"drpy_js_网易公版影像","name":"李九电视台43","type":3,"api":"./lib/drpy2.min.js","changeable":0,"style":{"type":"rect","ratio":1.597},"ext":"./js/网易公版影像.js"},
 
-
+{"key":"drpy_js_哔哩影视","name":"李九电视台44","type":3,"api":"./lib/drpy2.min.js","style":{"type":"rect","ratio":1.597},"changeable":0,"ext":"./js/哔哩影视.js"},
+{"key":"Bili","name":"李九电视台45","type": 3,"api": "csp_Bili","style":{"type":"rect","ratio":1.597},"searchable":1,"quickSearch":0,"changeable":0,"ext":"./FTY/bilibili.json"},
 
 
-
-{"key":"bb","name":"李九电视台43","type":3,"api":"./lib/drpy2.min.js","ext":"./js/drpy.js"},
-{"key":"cc","name":"李九电视台44","type":3,"api":"./lib/drpy2.min.js","ext":"./js/drpy.js"}
+{"key":"bb","name":"李九电视台46","type":3,"api":"./lib/drpy2.min.js","ext":"./js/drpy.js"},
+{"key":"cc","name":"李九电视台47","type":3,"api":"./lib/drpy2.min.js","ext":"./js/drpy.js"}
 ],
 "parses":[
 {"name":"Json聚合","type":3,"url":"Demo"},
