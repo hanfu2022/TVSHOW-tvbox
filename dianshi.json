@@ -83,13 +83,7 @@
 {"key":"drpy_js_菜狗","name":"官源 | 搜狗[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/菜狗.js"},
 {"key":"drpy_js_优酷","name":"官源 | 优酷[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/优酷.js"},
 
-{"key":"drpy_js_4KHDR","name":"磁力 | 4KHDR[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/4khdr.js","playerType":"1", "searchable":1, "quickSearch":1, "changeable":1, "timeout":30},
-{"key":"drpy_js_极影网","name":"磁力 | 极影网[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/jiyingw.js","playerType":"1", "searchable":1, "quickSearch":1, "changeable":1, "timeout":30},
-{"key":"drpy_js_MP4US","name":"磁力 | MP4电影[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/mp4us.js","playerType":"1", "searchable":1, "quickSearch":1, "changeable":1, "timeout":30},
-{"key":"drpy_js_电影港","name":"磁力 | 电影港[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/dygang.js","playerType":"1", "searchable":1, "quickSearch":1, "changeable":1, "timeout":30},
-{"key":"drpy_js_kuba","name":"磁力 | 酷吧[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/kuba.js", "quickSearch":1, "changeable":1, "timeout":30},
-{"key":"drpy_js_xb6v","name":"磁力 | 新版6v[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/xb6v.js","playerType":"1", "searchable":1, "quickSearch":1, "changeable":1, "timeout":30},
-{"key":"drpy_js_美剧迷","name":"磁力 | 美剧迷[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/meijumi.js", "quickSearch":1, "changeable":1, "timeout":30},
+    
 {"key":"drpy_js_ddys","name":"影视 | 低端影视[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/ddys.js", "quickSearch":1, "changeable":1, "timeout":30},
 {"key":"drpy_js_libvio","name":"影视 | libvio[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/libvio.js", "quickSearch":1, "changeable":1, "timeout":30},
 {"key":"drpy_js_tzfile","name":"影视 | 团长影视[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/tzfile.js", "quickSearch":1, "changeable":1, "timeout":30},
@@ -151,30 +145,18 @@
 {"key":"drpy_js_i275听书","name":"听书 | i275听书[js]","type":3,"api":"./lib/drpy2.min.js","changeable":0,"style":{"type":"rect","ratio":1},"ext":"./js/i275听书.js"},
 {"key":"drpy_js_爱上你听书网","name":"听书 | 爱上你听书[js]","type":3,"api":"./lib/drpy2.min.js","changeable":0,"style":{"type":"rect","ratio":1},"ext":"./js/爱上你听书网.js"},
 {"key":"drpy_js_博看听书","name":"听书 | 博看听书[js]","type":3,"api":"./lib/drpy2.min.js","changeable":0,"style":{"type":"rect","ratio":1},"ext":"./js/博看听书.js"},
-{"key":"drpy_js_海洋听书","name":"听书 | 海洋听书[js]","type":3,"api":"./lib/drpy2.min.js","changeable":0,"style":{"type":"rect","ratio":1},"ext":"./js/海洋听书.js"},
-{"key":"drpy_js_六月听书","name":"听书 | 六月听书[js]","type":3,"api":"./lib/drpy2.min.js","changeable":0,"style":{"type":"rect","ratio":1},"ext":"./js/六月听书.js"},
-{"key":"drpy_js_有声小说","name":"听书 | 有声小说[js]","type":3,"api":"./lib/drpy2.min.js","changeable":0,"style":{"type":"rect","ratio":1},"ext":"./js/有声小说吧.js"},
-{"key":"drpy_js_播客","name":"聚合 | 播客[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/播客.js"},
-{"key":"drpy_js_短视频","name":"聚合 | 短视频[js]","type":3,"api":"./lib/drpy2.min.js","changeable":0,"ext":"./js/短视频.js"},
-{"key":"drpy_js_酷6网","name":"聚合 | 酷6网[js]","type":3,"api":"./lib/drpy2.min.js","changeable":0,"ext":"./js/酷6网.js"},
+
 {"key":"drpy_js_网易公版影像","name":"聚合 | 网易公版[js]","type":3,"api":"./lib/drpy2.min.js","changeable":0,"style":{"type":"rect","ratio":1.597},"ext":"./js/网易公版影像.js"},
-{"key":"drpy_js_爱车MV","name":"MV | 爱车MV[js]","type":3,"api":"./lib/drpy2.min.js","changeable":0,"style":{"type":"rect","ratio":1},"ext":"./js/爱车MV.js"},
-{"key":"drpy_js_酷奇MV","name":"MV | 酷奇[js]","type":3,"api":"./lib/drpy2.min.js","changeable":0,"style":{"type":"rect","ratio":1},"ext":"./js/酷奇MV.js"},
+
 
 {"key":"drpy_js_爱看机器人","name":"影视 | 爱看机器人[js]","type":3,"api":"./lib/drpy2.min.js","searchable":1,"quickSearch":1,"changeable":1,"ext":"./js/爱看机器人.js"},
 {"key":"drpy_js_ikanbot2","name":"影视 | 爱看机器人2[js]","type":3,"api":"./lib/drpy2.min.js","searchable":1,"quickSearch":1,"changeable":1,"ext":"./js/ikanbot2.js"},
 {"key":"drpy_js_ikanbot3","name":"影视 | 爱看机器人3[js]","type":3,"api":"./lib/drpy2.min.js","searchable":1,"quickSearch":1,"changeable":1,"ext":"./js/ikanbot3.js"},
-{"key":"drpy_js_jsapi2","name":"影视 | 百度测试[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/jsapi2.js"},
+
 {"key":"drpy_js_139影视","name":"影视 | 139影视[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/139影视.js"},
-{"key":"drpy_js_348电影网","name":"影视 | 348电影网[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/348电影网.js"},
-{"key":"drpy_js_4K电影网","name":"影视 | 4K电影网[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/4K电影网.js"},
-{"key":"drpy_js_8号影院","name":"影视 | 8号影院[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/8号影院.js"},
-{"key":"drpy_js_JangoIndex","name":"影视 | JangoIndex[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/JangoIndex.js"},
-{"key":"drpy_js_NY影院","name":"影视 | NY影院[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/NY影院.js"},
-{"key":"drpy_js_被窝电影","name":"影视 | 被窝电影[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/被窝电影.js"},
+
 {"key":"drpy_js_厂长资源","name":"影视 | 厂长资源[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/厂长资源.js"},
-{"key":"drpy_js_楚门影院","name":"影视 | 楚门影院[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/楚门影院.js"},
-{"key":"drpy_js_大米星球","name":"影视 | 大米星球[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/大米星球.js"},
+
 {"key":"drpy_js_飞兔影视","name":"影视 | 飞兔影视[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/飞兔影视.js"},
 
 
