@@ -22,9 +22,7 @@
 {"key": "Itv","name": "影视 |李九电视台9","type": 3,"api": "csp_Itv","quickSearch": 1,"searchable": 1,"filterable": 1,"jar":"./jar/fty.jar;md5;b25d0e7f7c87f31aa886b78fe43a7d4c","changeable": 0},
 {"key": "Mtv","name": "影视 |李九电视台10","type": 3,"api": "csp_Mtv","searchable": 1,"quickSearch": 1,"filterable": 1,"jar":"./jar/fty.jar;md5;b25d0e7f7c87f31aa886b78fe43a7d4c","changeable": 0},
 
-{"key":"drpy_js_爱看机器人","name":"影视 | 爱看机器人[js]","type":3,"api":"./lib/drpy2.min.js","searchable":1,"quickSearch":1,"changeable":1,"ext":"./js/爱看机器人.js"},
-{"key":"drpy_js_ikanbot2","name":"影视 | 爱看机器人2[js]","type":3,"api":"./lib/drpy2.min.js","searchable":1,"quickSearch":1,"changeable":1,"ext":"./js/ikanbot2.js"},
-{"key":"drpy_js_ikanbot3","name":"影视 | 爱看机器人3[js]","type":3,"api":"./lib/drpy2.min.js","searchable":1,"quickSearch":1,"changeable":1,"ext":"./js/ikanbot3.js"},
+
 
 {"key":"drpy_js_139影视","name":"李九电视台11","type":3,"api":"./lib/drpy2.min.js","ext":"./js/139影视.js"},
 
@@ -112,16 +110,20 @@
 
 
 
-{"key":"MTV","name":"🎧明星┃MV","type":3,"api":"csp_Bili","style":{"type":"rect","ratio":1.597},"searchable":0,"quickSearch":0,"changeable":0,"ext":"./FTY/MTV.json"},
+
 
 
 {"key":"有声小说js","name":"李九小说频道","type":3,"api":"./FTY/drpy2.min.js","ext":"./FTY/有声小说吧.js","style":{"type":"rect","ratio":1},"searchable": 0,"quickSearch": 0,"changeable":0},
 {"key":"Aid","name":"李九医学急救教学频道","type":3,"api":"csp_FirstAid","searchable":0,"quickSearch":0,"changeable":0,"style": { "type": "rect", "ratio":3.8}},
 
+{"key":"MTV","name":"李九音乐台一","type":3,"api":"csp_Bili","style":{"type":"rect","ratio":1.597},"searchable":0,"quickSearch":0,"changeable":0,"ext":"./FTY/MTV.json"},
+{"key":"Biliych","name":"李九音乐台二","type": 3,"api": "csp_Bili","style":{"type":"rect","ratio":1.597},"searchable":1,"quickSearch":0,"changeable":0,"ext":"./FTY/biliych.json"},
 
-{"key":"Biliych","name":"🅱明星┃演唱会","type": 3,"api": "csp_Bili","style":{"type":"rect","ratio":1.597},"searchable":1,"quickSearch":0,"changeable":0,"ext":"./FTY/biliych.json"},
+{"key":"drpy_js_A8音乐","name":"李九音乐台三","type":3,"api":"./lib/drpy2.min.js","ext":"./js/A8音乐.js"},
+{"key":"drpy_js_DJ音乐","name":"李九音乐台四","type":3,"api":"./lib/drpy2.min.js","changeable":0,"style":{"type":"rect","ratio":1},"ext":"./js/DJ音乐.js"},
 
-
+{"key":"drpy_js_清风DJ","name":"李九音乐台五","type":3,"api":"./lib/drpy2.min.js","changeable":0,"style":{"type":"rect","ratio":1},"ext":"./js/清风DJ.js"},
+    
 
 
 
@@ -147,21 +149,19 @@
 
     
 
-{"key":"drpy_js_A8音乐","name":"音频 | A8音乐[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/A8音乐.js"},
-{"key":"drpy_js_DJ音乐","name":"音频 | DJ音乐[js]","type":3,"api":"./lib/drpy2.min.js","changeable":0,"style":{"type":"rect","ratio":1},"ext":"./js/DJ音乐.js"},
 
-{"key":"drpy_js_清风DJ","name":"音频 | 清风DJ[js]","type":3,"api":"./lib/drpy2.min.js","changeable":0,"style":{"type":"rect","ratio":1},"ext":"./js/清风DJ.js"},
-    
 
 
 {"key":"drpy_js_网易公版影像","name":"李九电视台43","type":3,"api":"./lib/drpy2.min.js","changeable":0,"style":{"type":"rect","ratio":1.597},"ext":"./js/网易公版影像.js"},
 
 {"key":"drpy_js_哔哩影视","name":"李九电视台44","type":3,"api":"./lib/drpy2.min.js","style":{"type":"rect","ratio":1.597},"changeable":0,"ext":"./js/哔哩影视.js"},
 {"key":"Bili","name":"李九电视台45","type": 3,"api": "csp_Bili","style":{"type":"rect","ratio":1.597},"searchable":1,"quickSearch":0,"changeable":0,"ext":"./FTY/bilibili.json"},
+{"key":"drpy_js_爱看机器人","name":"李九电视台46","type":3,"api":"./lib/drpy2.min.js","searchable":1,"quickSearch":1,"changeable":1,"ext":"./js/爱看机器人.js"},
+{"key":"drpy_js_ikanbot2","name":"李九电视台47","type":3,"api":"./lib/drpy2.min.js","searchable":1,"quickSearch":1,"changeable":1,"ext":"./js/ikanbot2.js"},
+{"key":"drpy_js_ikanbot3","name":"李九电视台48","type":3,"api":"./lib/drpy2.min.js","searchable":1,"quickSearch":1,"changeable":1,"ext":"./js/ikanbot3.js"},
 
-
-{"key":"bb","name":"李九电视台46","type":3,"api":"./lib/drpy2.min.js","ext":"./js/drpy.js"},
-{"key":"cc","name":"李九电视台47","type":3,"api":"./lib/drpy2.min.js","ext":"./js/drpy.js"}
+{"key":"bb","name":"李九电视台49","type":3,"api":"./lib/drpy2.min.js","ext":"./js/drpy.js"},
+{"key":"cc","name":"李九电视台50","type":3,"api":"./lib/drpy2.min.js","ext":"./js/drpy.js"}
 ],
 "parses":[
 {"name":"Json聚合","type":3,"url":"Demo"},
