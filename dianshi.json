@@ -254,22 +254,10 @@
 {"key":"drpy_js_追剧迷","name":"影视 | 追剧迷[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/追剧迷.js"},
 {"key":"drpy_js_子子影视","name":"影视 | 子子影视[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/子子影视.js"},
 
-{"key":"drpy_js_大师兄影视","name":"起飞 | 大师兄影视[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/大师兄影视.js"},
-{"key":"drpy_js_华乐影院","name":"起飞 | 华乐影院[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/华乐影院[飞].js"},
-{"key":"drpy_js_天天视频","name":"起飞 | 天天视频[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/天天视频[飞].js"},
-{"key":"drpy_js_起飞影院","name":"起飞 | 起飞影院[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/起飞影院.js"},
-{"key":"drpy_js_兰花影院","name":"起飞 | 兰花影院[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/兰花影院.js"},
-{"key":"drpy_js_胖虎","name":"起飞 | 胖虎[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/胖虎.js"},
-{"key":"drpy_js_555影视[飞]","name":"起飞 | 555影视[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/555影视[飞].js"},
-{"key":"drpy_js_if101[飞]","name":"起飞 | if101[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/if101[飞].js"},
-{"key":"drpy_js_KUBO影视[飞]","name":"起飞 | KUBO影视[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/KUBO影视[飞].js"},
-{"key":"drpy_js_爱壹帆[飞]","name":"起飞 | 爱壹帆[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/爱壹帆[飞].js"},
-{"key":"drpy_js_独播库[飞]","name":"起飞 | 独播库[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/独播库[飞].js"},
-{"key":"drpy_js_欧乐影院[飞]","name":"起飞 | 欧乐影院[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/欧乐影院[飞].js"},
-{"key":"drpy_js_小宝影院[飞]","name":"起飞 | 小宝影院[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/小宝影院[飞].js"},
 
-{"key":"bb","name":"配置接口完全免费","type":3,"api":"./lib/drpy2.min.js","ext":"./js/drpy.js"},
-{"key":"cc","name":"请勿相信视频中任何广告","type":3,"api":"./lib/drpy2.min.js","ext":"./js/drpy.js"}
+
+{"key":"drpy_js_KUBO影视[飞]","name":"起飞 | KUBO影视[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/KUBO影视[飞].js"},
+
 ],
 "parses":[
 {"name":"Json聚合","type":3,"url":"Demo"},
