@@ -79,19 +79,14 @@
 
 
 
-{"key":"drpy_js_18哈","name":"影视 | 18哈[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/18哈.js"},
-{"key":"drpy_js_567电影院","name":"影视 | 567电影院[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/567电影院.js"},
-{"key":"drpy_js_Fun4K","name":"影视 | Fun4K[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/Fun4K.js"},
-{"key":"drpy_js_KOK影院","name":"影视 | KOK影院[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/KOK影院.js"},
-{"key":"drpy_js_TVB云播","name":"影视 | TVB云播[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/TVB云播.js"},
+
 {"key":"drpy_js_UrleBird[飞]","name":"影视 | UrleBird[飞][js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/UrleBird[飞].js"},
 {"key":"drpy_js_爱看影院","name":"影视 | 爱看影院[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/爱看影院.js"},
-{"key":"drpy_js_北川影视","name":"影视 | 北川影视[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/北川影视.js"},
-{"key":"drpy_js_尘落影视","name":"影视 | 尘落影视[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/尘落影视.js"},
-{"key":"drpy_js_达达龟","name":"影视 | 达达龟[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/达达龟.js"},
+
+    
+
 {"key":"drpy_js_蛋蛋赞","name":"影视 | 蛋蛋赞[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/蛋蛋赞.js"},
-{"key":"drpy_js_多瑙影视","name":"影视 | 多瑙影视[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/多瑙影视.js"},
-{"key":"drpy_js_剧迷su","name":"影视 | 剧迷su[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/剧迷su.js"},
+
 {"key":"drpy_js_看韩剧","name":"影视 | 看韩剧[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/看韩剧.js"},
 {"key":"drpy_js_看了么","name":"影视 | 看了么[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/看了么.js"},
 {"key":"drpy_js_蓝光影院","name":"影视 | 蓝光影院[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/蓝光影院.js"},
