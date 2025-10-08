@@ -109,16 +109,12 @@
 
 
 
-{"key":"drpy_js_美剧迷","name":"磁力 | 美剧迷[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/meijumi.js", "quickSearch":1, "changeable":1, "timeout":30},
+
 {"key":"drpy_js_ddys","name":"影视 | 低端影视[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/ddys.js", "quickSearch":1, "changeable":1, "timeout":30},
-{"key":"drpy_js_libvio","name":"影视 | libvio[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/libvio.js", "quickSearch":1, "changeable":1, "timeout":30},
-{"key":"drpy_js_tzfile","name":"影视 | 团长影视[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/tzfile.js", "quickSearch":1, "changeable":1, "timeout":30},
-{"key":"drpy_js_dydhhy","name":"影视 | dydhhy[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/dydhhy.js", "quickSearch":1, "changeable":1, "timeout":30},
-{"key":"drpy_js_97tvs","name":"影视 | 97tvs[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/97tvs.js", "quickSearch":1, "changeable":1, "timeout":30}, 
-{"key":"drpy_js_rrdyw","name":"影视 | rrdyw[js]","type":3,"api":"./lib/drpy2.min.js","ext":"./js/rrdyw.js", "quickSearch":1, "changeable":1, "timeout":30}, 
+
 
 {"key":"drpy_js_磁力熊[磁]","name":"磁力 | 磁力熊[js]","type":3,"api":"./lib/drpy2.min.js","searchable":1,"quickSearch":1,"changeable":0,"ext":"./js/磁力熊[磁].js", "timeout":30},
-{"key":"drpy_js_6V新版[磁]","name":"磁力 | 6V新版[js]","type":3,"api":"./lib/drpy2.min.js","searchable":1,"quickSearch":1,"changeable":0,"ext":"./js/6V新版[磁].js", "timeout":30},
+
 {"key":"drpy_js_童趣","name":"少儿 | 童趣[js]","type":3,"api":"./lib/drpy2.min.js","changeable":0,"style":{"type":"rect","ratio":1.597},"ext":"./js/童趣.js"},
 {"key":"drpy_js_兔小贝","name":"少儿 | 兔小贝[js]","type":3,"api":"./lib/drpy2.min.js","style":{"type":"rect","ratio":1.597},"changeable":0,"ext":"./js/兔小贝.js"},
 {"key":"drpy_js_有声绘本网","name":"少儿 | 有声绘本[js]","type":3,"api":"./lib/drpy2.min.js","changeable":0,"style":{"type":"rect","ratio":1},"ext":"./js/有声绘本网.js"},
