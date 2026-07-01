@@ -52,7 +52,7 @@
         <div class="upload-box">
             <h2>Upload files or images</h2>
             <input type="file" id="fileInput" multiple>
-            <button onclick="uploadFiles()">上传</button>
+            <button onclick="uploadFiles()">Upload</button>
         </div>
         <div class="file-list" id="fileList"></div>
     </div>
@@ -62,12 +62,12 @@
             const fileInput = document.getElementById('fileInput');
             const files = fileInput.files;
             if (!files.length) {
-                alert('请选择文件');
+                alert('Please select a file');
                 return;
             }
 
             const fileList = document.getElementById('fileList');
-            fileList.innerHTML = '上传中...';
+            fileList.innerHTML = 'uploading...';
 
             for (let file of files) {
                 const formData = new FormData();
@@ -84,11 +84,11 @@
                         const { url, expires } = await response.json();
                         displayFile(file.name, url, expires);
                     } else {
-                        throw new Error('上传失败');
+                        throw new Error('upload fail');
                     }
                 } catch (error) {
-                    console.error('上传错误:', error);
-                    alert('上传失败: ' + error.message);
+                    console.error('upload fail:', error);
+                    alert('upload fail: ' + error.message);
                 }
             }
         }
@@ -100,7 +100,7 @@
             const expireTime = new Date(expires).toLocaleTimeString();
             fileItem.innerHTML = `
                 <span>${name}</span>
-                <a href="${url}" target="_blank">下载 (有效至 ${expireTime})</a>
+                <a href="${url}" target="_blank">download (Effective to ${expireTime})</a>
             `;
             fileList.appendChild(fileItem);
         }
