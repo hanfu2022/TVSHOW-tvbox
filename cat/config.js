@@ -37,9 +37,8 @@ window.TG_CONFIG = {
   //      返回的 JSON 里 "chat":{"id": ... } 那个数字就是,复制下来
   //   5. 把这个数字填到下面 chatId 字段
   categories: [
-    { id: 'life', name: '生活', chatId: -1004347405391 }, // 例: -1001234567890
-    { id: 'art', name: '艺术', chatId: 0 },
-    { id: 'city', name: '城市', chatId: 0 }
+    { id: 'life', name: '生活', chatId: -1004347405391 } // 例: -1001234567890
+   
     // 想要更多分类,照着上面的格式继续加,每加一个就去 Telegram 建一个对应群组
   ],
 
