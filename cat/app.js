@@ -25,7 +25,8 @@
     state[cat.id] = { allItems: [], shown: 0, loading: false, loaded: false };
   });
   var currentCat = CFG.categories[0].id;
-  var fileUrlCache = {}; // file_id -> 直链,内存缓存,刷新页面就没了,不算"存储"
+  var fileUrlCache = {}; // file_id -> 直链
+  var indexCache = {}; // chatId -> { fileUniqueId, items }  内存缓存,刷新页面就没了
 
   // ================= 通用小工具 =================
 
@@ -124,9 +125,16 @@
     }, onFail);
   }
 
+  // 多账号 Worker 轮换起点:每次打开页面随机挑一个作为起点,
+  // 让不同访客尽量分散到不同账号的 Worker 上,不会全挤在同一个
+  var proxyList = CFG.corsProxyList || [];
+  var proxyStartIndex = proxyList.length ? Math.floor(Math.random() * proxyList.length) : 0;
+
   // api.telegram.org/file/... 这个下载路径没开跨域头,直连读取内容大概率被
   // 浏览器拦(图片 <img> 标签不受影响,只有 fetch 读文本受影响)。
-  // 这里做直连优先、失败自动切公共代理兜底。
+  // 这里做:直连优先 → 失败按顺序试配置里的转发地址,试到成功为止,
+  // 每次只用其中一个,不会同时打给全部;试成功的那个记下来,当前这次
+  // 访问后续优先继续用它,减少后面每次都要重新试错的开销。
   function fetchTextWithFallback(url, onOk, onFail) {
     var doFetch = function (target, onDone) {
       if (HAS_FETCH) {
@@ -147,12 +155,22 @@
       xhr.send();
     };
 
+    var tryProxyAt = function (attemptCount) {
+      if (!proxyList.length || attemptCount >= proxyList.length) {
+        onFail(new Error('直连和全部转发节点都失败了'));
+        return;
+      }
+      var idx = (proxyStartIndex + attemptCount) % proxyList.length;
+      doFetch(proxyList[idx] + encodeURIComponent(url), function (err, text) {
+        if (err) { tryProxyAt(attemptCount + 1); return; }
+        proxyStartIndex = idx; // 这个节点好使,下次优先从它开始试
+        onOk(text);
+      });
+    };
+
     doFetch(url, function (err, text) {
       if (!err) { onOk(text); return; }
-      if (!CFG.corsProxy) { onFail(err); return; }
-      doFetch(CFG.corsProxy + encodeURIComponent(url), function (err2, text2) {
-        if (err2) onFail(err2); else onOk(text2);
-      });
+      tryProxyAt(0);
     });
   }
 
@@ -190,36 +208,57 @@
     tgPost('editMessageMedia', fd2, function () { onOk(existingMsgId); }, onFail);
   }
 
-  // 带"写入前二次核对"的追加操作。mutateFn(items) 返回新的 items 数组。
+  // 带"写入前二次核对"的追加操作,并且优先用内存缓存避免重复走慢代理下载。
+  // mutateFn(items) 返回新的 items 数组。
   function appendToIndex(chatId, mutateFn, onDone, attempt) {
     attempt = attempt || 0;
+
     fetchPinnedIndexMessage(chatId, function (pinnedMsg) {
-      downloadIndexJson(pinnedMsg, function (indexObj) {
-        var newItems = mutateFn((indexObj.items || []).slice());
+      var docUid = pinnedMsg && pinnedMsg.document ? pinnedMsg.document.file_unique_id : null;
+      var cached = indexCache[chatId];
 
-        // 二次核对:提交前再问一次 Telegram 现在置顶的是不是还是同一条、
-        // 内容有没有变,变了说明有人抢先写过了,重新来一轮再合并
+      var proceedWith = function (items) {
+        var newItems = mutateFn(items.slice());
+
+        // 提交前再核对一次:置顶的还是不是刚才那份、内容有没有变
         fetchPinnedIndexMessage(chatId, function (pinnedMsg2) {
-          var before = pinnedMsg && pinnedMsg.document ? pinnedMsg.document.file_unique_id : null;
-          var after = pinnedMsg2 && pinnedMsg2.document ? pinnedMsg2.document.file_unique_id : null;
-          var msgIdBefore = pinnedMsg ? pinnedMsg.message_id : null;
-          var msgIdAfter = pinnedMsg2 ? pinnedMsg2.message_id : null;
+          var docUid2 = pinnedMsg2 && pinnedMsg2.document ? pinnedMsg2.document.file_unique_id : null;
+          var msgId2 = pinnedMsg2 ? pinnedMsg2.message_id : null;
 
-          if ((before !== after || msgIdBefore !== msgIdAfter) && attempt < CFG.maxWriteRetries) {
-            window.setTimeout(function () {
-              appendToIndex(chatId, mutateFn, onDone, attempt + 1);
-            }, 250 + Math.random() * 400);
+          if (docUid2 !== docUid && attempt < CFG.maxWriteRetries) {
+            delete indexCache[chatId]; // 缓存已过期,清掉强制下一轮真正重新下载
+            window.setTimeout(function () { appendToIndex(chatId, mutateFn, onDone, attempt + 1); }, 250 + Math.random() * 400);
             return;
           }
 
-          uploadIndex(chatId, msgIdAfter, { items: newItems }, function () { onDone(null); }, function (err) {
+          uploadIndex(chatId, msgId2, { items: newItems }, function () {
+            // 上传成功后顺手把新状态记进缓存,下一次发布就能直接复用,不用再下载
+            fetchPinnedIndexMessage(chatId, function (pinnedMsg3) {
+              var uid3 = pinnedMsg3 && pinnedMsg3.document ? pinnedMsg3.document.file_unique_id : null;
+              indexCache[chatId] = { fileUniqueId: uid3, items: newItems };
+              onDone(null);
+            }, function () {
+              indexCache[chatId] = { fileUniqueId: null, items: newItems }; // 缓存不了 uid 就下次强制重下,不影响正确性
+              onDone(null);
+            });
+          }, function (err) {
             if (attempt < CFG.maxWriteRetries) {
+              delete indexCache[chatId];
               window.setTimeout(function () { appendToIndex(chatId, mutateFn, onDone, attempt + 1); }, 400 + Math.random() * 400);
             } else {
               onDone(err);
             }
           });
         }, onDone);
+      };
+
+      // 缓存命中(置顶消息没变过)就直接用内存里的,跳过慢代理下载
+      if (cached && cached.fileUniqueId === docUid) { proceedWith(cached.items); return; }
+
+      downloadIndexJson(pinnedMsg, function (indexObj) {
+        var items = indexObj.items || [];
+        indexCache[chatId] = { fileUniqueId: docUid, items: items.slice() };
+        proceedWith(items);
       }, onDone);
     }, onDone);
   }
@@ -302,7 +341,10 @@
 
     fetchPinnedIndexMessage(cat.chatId, function (pinnedMsg) {
       downloadIndexJson(pinnedMsg, function (indexObj) {
-        s.allItems = (indexObj.items || []).slice().reverse(); // 新的在前
+        var items = indexObj.items || [];
+        var docUid = pinnedMsg && pinnedMsg.document ? pinnedMsg.document.file_unique_id : null;
+        indexCache[cat.chatId] = { fileUniqueId: docUid, items: items.slice() };
+        s.allItems = items.slice().reverse(); // 新的在前
         s.shown = 0;
         s.loading = false;
         s.loaded = true;
