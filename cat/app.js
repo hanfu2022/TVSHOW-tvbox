@@ -474,7 +474,7 @@
   }
 
   function checkConfig() {
-    var bad = CFG.botToken === '8360783760:AAH6XJ-BUv59XOuj4_k-QOI2jV3RgMy6dv4' || CFG.categories.some(function (c) { return !c.chatId; });
+    var bad = CFG.botToken === 'YOUR_BOT_TOKEN_HERE' || CFG.categories.some(function (c) { return !c.chatId; });
     if (bad) { toast('还没配置 config.js 里的 botToken / 群组 chatId,页面先展示界面骨架', true); return false; }
     return true;
   }
