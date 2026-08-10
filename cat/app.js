@@ -124,21 +124,44 @@
     }, onFail);
   }
 
+  // api.telegram.org/file/... 这个下载路径没开跨域头,直连读取内容大概率被
+  // 浏览器拦(图片 <img> 标签不受影响,只有 fetch 读文本受影响)。
+  // 这里做直连优先、失败自动切公共代理兜底。
+  function fetchTextWithFallback(url, onOk, onFail) {
+    var doFetch = function (target, onDone) {
+      if (HAS_FETCH) {
+        window.fetch(target).then(function (r) {
+          if (!r.ok) throw new Error('HTTP ' + r.status);
+          return r.text();
+        }).then(function (t) { onDone(null, t); }).catch(function (e) { onDone(e); });
+        return;
+      }
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', target, true);
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+          xhr.status >= 200 && xhr.status < 300 ? onDone(null, xhr.responseText) : onDone(new Error('HTTP ' + xhr.status));
+        }
+      };
+      xhr.onerror = function () { onDone(new Error('network error')); };
+      xhr.send();
+    };
+
+    doFetch(url, function (err, text) {
+      if (!err) { onOk(text); return; }
+      if (!CFG.corsProxy) { onFail(err); return; }
+      doFetch(CFG.corsProxy + encodeURIComponent(url), function (err2, text2) {
+        if (err2) onFail(err2); else onOk(text2);
+      });
+    });
+  }
+
   function downloadIndexJson(pinnedMsg, onOk, onFail) {
     if (!pinnedMsg || !pinnedMsg.document) { onOk({ items: [] }); return; }
     resolveFileUrl(pinnedMsg.document.file_id, function (url) {
-      var req = HAS_FETCH
-        ? window.fetch(url).then(function (r) { return r.text(); })
-        : new Promise(function (res, rej) {
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', url, true);
-            xhr.onreadystatechange = function () { if (xhr.readyState === 4) { xhr.status === 200 ? res(xhr.responseText) : rej(new Error('HTTP ' + xhr.status)); } };
-            xhr.onerror = function () { rej(new Error('network error')); };
-            xhr.send();
-          });
-      req.then(function (text) {
+      fetchTextWithFallback(url, function (text) {
         try { onOk(JSON.parse(text)); } catch (e) { onOk({ items: [] }); }
-      }).catch(onFail);
+      }, onFail);
     }, onFail);
   }
 
