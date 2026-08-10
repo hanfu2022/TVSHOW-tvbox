@@ -22,7 +22,7 @@
 
 window.TG_CONFIG = {
   // 在 @BotFather 创建 bot 后拿到的 token
-  botToken: '8680234337:AAG7QnN6k15ocp7mwGU62TiqN-gFzH4bfgA',
+  botToken: '8360783760:AAH6XJ-BUv59XOuj4_k-QOI2jV3RgMy6dv4',
 
   // 分类 -> 私密群组 对照表。
   //
@@ -37,7 +37,7 @@ window.TG_CONFIG = {
   //      返回的 JSON 里 "chat":{"id": ... } 那个数字就是,复制下来
   //   5. 把这个数字填到下面 chatId 字段
   categories: [
-    { id: 'life', name: '生活', chatId: -1004300908826 }, // 例: -1001234567890
+    { id: 'life', name: '生活', chatId: -1004347405391 }, // 例: -1001234567890
      <!--{ id: 'art', name: '艺术', chatId: 0 },-->
      <!--{ id: 'city', name: '城市', chatId: 0 }-->
     // 想要更多分类,照着上面的格式继续加,每加一个就去 Telegram 建一个对应群组
