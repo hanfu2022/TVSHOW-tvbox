@@ -38,8 +38,8 @@ window.TG_CONFIG = {
   //   5. 把这个数字填到下面 chatId 字段
   categories: [
     { id: 'life', name: '生活', chatId: -1004347405391 }, // 例: -1001234567890
-     <!--{ id: 'art', name: '艺术', chatId: 0 },-->
-     <!--{ id: 'city', name: '城市', chatId: 0 }-->
+    { id: 'art', name: '艺术', chatId: 0 },
+    { id: 'city', name: '城市', chatId: 0 }
     // 想要更多分类,照着上面的格式继续加,每加一个就去 Telegram 建一个对应群组
   ],
 
@@ -49,6 +49,14 @@ window.TG_CONFIG = {
 
   // 单帖最多几张图
   maxImagesPerPost: 9,
+
+  // api.telegram.org/file/bot<token>/... 这个"下载文件原始内容"的路径没有开
+  // 跨域头(它是设计给 <img src> 这种场景用的,不是给 fetch 读文本用的),
+  // 所以读取置顶索引 JSON 的内容时,直连大概率会被浏览器拦。这里配一个
+  // 公共免费跨域代理做兜底：直连失败就自动切到这个代理重试。
+  // 只在"下载索引文件内容"这一步用到,不影响发布、不影响图片正常显示。
+  // 免费代理不保证长期稳定,失效了换一个同类型的代理地址即可。
+  corsProxy: 'https://api.allorigins.win/raw?url=',
 
   // 索引写入冲突时最多重试几次(见 README 里对并发风险的说明)
   maxWriteRetries: 4
