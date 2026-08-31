@@ -1,0 +1,355 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700&family=Noto+Sans+SC:wght@400;500;700&family=Caveat:wght@600;700&display=swap');
+
+:root {
+  --board: #3E2C23;
+  --cork: #C9A66B;
+  --cork-dark: #B6935A;
+  --card: #FBF7EE;
+  --ink: #2B2118;
+  --ink-soft: #6b5c4a;
+  --pin: #C1432E;
+  --tape: rgba(232, 217, 181, 0.85);
+  --ok: #3f7a4f;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--cork);
+  background-image:
+    radial-gradient(rgba(0,0,0,0.08) 1px, transparent 1px),
+    radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px);
+  background-size: 3px 3px, 5px 5px;
+  background-position: 0 0, 2px 2px;
+  color: var(--ink);
+  font-family: 'Noto Sans SC', -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- 顶部 ---------- */
+
+.header {
+  background: var(--board);
+  color: var(--card);
+  padding: 18px 20px 14px;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.25);
+}
+
+.header-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.brand {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.brand .accent {
+  font-family: 'Caveat', cursive;
+  color: #E8C468;
+  font-size: 26px;
+}
+
+.tagline {
+  font-size: 12px;
+  color: rgba(251,247,238,0.65);
+}
+
+.tab-bar {
+  max-width: 1100px;
+  margin: 12px auto 0;
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.tab-bar::-webkit-scrollbar { display: none; }
+
+.tab {
+  flex: 0 0 auto;
+  background: transparent;
+  border: 1px solid rgba(251,247,238,0.3);
+  color: rgba(251,247,238,0.8);
+  padding: 6px 16px;
+  border-radius: 999px;
+  font-size: 14px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.tab:hover { border-color: rgba(251,247,238,0.6); }
+.tab.active {
+  background: #E8C468;
+  border-color: #E8C468;
+  color: var(--board);
+  font-weight: 700;
+}
+
+/* ---------- 发布区 ---------- */
+
+.publish-wrap {
+  max-width: 1100px;
+  margin: 22px auto 8px;
+  padding: 0 16px;
+}
+
+.publish-card {
+  background: var(--card);
+  border-radius: 4px;
+  padding: 16px 18px 18px;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.18), 0 1px 0 rgba(255,255,255,0.4) inset;
+  position: relative;
+}
+
+.publish-card::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: 24px;
+  width: 60px;
+  height: 22px;
+  background: var(--tape);
+  transform: rotate(-3deg);
+  box-shadow: 0 2px 3px rgba(0,0,0,0.15);
+}
+
+#publishText {
+  width: 100%;
+  min-height: 64px;
+  border: none;
+  border-bottom: 1px dashed #cbbfa5;
+  background: transparent;
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 15px;
+  resize: vertical;
+  padding: 6px 2px 10px;
+  color: var(--ink);
+}
+#publishText:focus { outline: none; border-bottom-color: var(--pin); }
+
+.publish-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.publish-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+.file-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--ink-soft);
+  cursor: pointer;
+  border: 1px solid #d8cbb0;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #fff;
+}
+.file-btn input { display: none; }
+
+#publishCategory {
+  font-family: inherit;
+  font-size: 13px;
+  border: 1px solid #d8cbb0;
+  border-radius: 999px;
+  padding: 6px 12px;
+  background: #fff;
+  color: var(--ink);
+}
+
+#publishSubmit {
+  background: var(--pin);
+  color: #fff;
+  border: none;
+  padding: 9px 22px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: transform 0.1s, background 0.15s;
+}
+#publishSubmit:hover { background: #a8391f; }
+#publishSubmit:active { transform: scale(0.97); }
+#publishSubmit:disabled { opacity: 0.6; cursor: default; }
+
+.file-preview {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+.file-preview img {
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: 3px;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* ---------- 瀑布流 ---------- */
+
+.feed-wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 12px 16px 60px;
+}
+
+#feed {
+  column-count: 1;
+  column-gap: 16px;
+}
+@media (min-width: 560px) { #feed { column-count: 2; } }
+@media (min-width: 860px) { #feed { column-count: 3; } }
+@media (min-width: 1180px) { #feed { column-count: 4; } }
+
+.card {
+  display: inline-block;
+  width: 100%;
+  background: var(--card);
+  border-radius: 3px;
+  margin: 0 0 16px;
+  padding: 10px 10px 12px;
+  box-shadow: 0 5px 12px rgba(0,0,0,0.22);
+  break-inside: avoid;
+  position: relative;
+  transform: rotate(var(--tilt, 0deg));
+  transition: transform 0.15s ease;
+}
+.card:hover { transform: rotate(0deg) scale(1.015); }
+
+.pin {
+  position: absolute;
+  top: -7px;
+  left: 50%;
+  margin-left: -6px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #e8776a, var(--pin) 70%);
+  box-shadow: 0 2px 3px rgba(0,0,0,0.35);
+}
+
+.card-media {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3px;
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+.card-media.multi { grid-template-columns: 1fr 1fr; }
+.card-media img {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+  background: #e9e1cf;
+}
+.card-media:not(.multi) img { max-height: 520px; }
+.card-media.multi img { aspect-ratio: 1 / 1; }
+.card-media.multi img[data-more] { position: relative; }
+.card-media.multi img[data-more]::after {
+  content: attr(data-more);
+}
+
+.card-text {
+  font-size: 14.5px;
+  line-height: 1.6;
+  margin: 4px 2px 8px;
+  color: var(--ink);
+  word-break: break-word;
+  white-space: pre-wrap;
+}
+
+.card-meta {
+  display: flex;
+  justify-content: flex-end;
+  font-family: 'Caveat', cursive;
+  font-size: 15px;
+  color: var(--ink-soft);
+  padding: 0 2px;
+}
+
+/* ---------- 加载 / 空状态 / toast ---------- */
+
+#loadingIndicator {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 18px 0 26px;
+  color: rgba(43,33,24,0.65);
+  font-size: 13px;
+}
+.spinner {
+  width: 16px; height: 16px;
+  border: 2px solid rgba(43,33,24,0.25);
+  border-top-color: var(--ink);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+#scrollSentinel { height: 1px; }
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: rgba(43,33,24,0.6);
+}
+.empty-state p { margin: 4px 0; font-size: 15px; }
+.empty-sub { font-size: 13px; }
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: -60px;
+  transform: translateX(-50%);
+  background: var(--board);
+  color: var(--card);
+  padding: 10px 18px;
+  border-radius: 999px;
+  font-size: 13px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+  transition: bottom 0.25s ease;
+  z-index: 50;
+  max-width: 88vw;
+  text-align: center;
+}
+.toast.show { bottom: 24px; }
+.toast.error { background: var(--pin); }
+
+/* ---------- 减弱动画偏好 ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .card, .toast, .tab { transition: none; }
+  .spinner { animation: none; }
+}
+
+/* ---------- 极旧浏览器兜底 ----------
+   不支持 CSS 多栏(column-count)的浏览器会自动退化成单栏纵向列表,
+   内容依然完整可读,只是没有瀑布流的错落效果 —— 这是刻意的降级,
+   保证"老浏览器至少能看到内容"这条底线。 */
