@@ -1,112 +1,226 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
-      <script src="https://quge5.com/88/tag.min.js" data-zone="255291" async data-cfasync="false"></script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Temporary file sharing</title>
-   <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background: #f0f0f0;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        .upload-box {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        input[type="file"] {
-            display: block;
-            margin: 20px 0;
-        }
-        .file-list {
-            margin-top: 20px;
-        }
-        .file-item {
-            padding: 10px;
-            background: #fff;
-            margin: 10px 0;
-            border-radius: 5px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        @media (max-width: 600px) {
-            .container {
-                padding: 10px;
-            }
-            .upload-box {
-                padding: 15px;
-            }
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#1677ff">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="蓝行打车">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="description" content="蓝行打车 PWA 演示版">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="apple-touch-icon" href="./icon-192.png">
+  <title>蓝行打车</title>
+  <style>
+    :root { --blue:#1677ff; --deep:#0756cf; --ink:#142033; --muted:#7a8798; --line:#edf1f6; --bg:#f4f7fb; }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; background:var(--bg); color:var(--ink); }
+    button,input { font:inherit; }
+    button { cursor:pointer; }
+    .app { max-width:520px; min-height:100dvh; margin:auto; background:#fff; position:relative; padding-bottom:84px; overflow:hidden; }
+    .top { height:58px; display:flex; align-items:center; justify-content:space-between; padding:0 20px; border-bottom:1px solid #f2f4f7; background:#fff; position:relative; z-index:2; }
+    .brand { display:flex; align-items:center; gap:9px; font-weight:800; font-size:18px; }
+    .brand-icon { width:34px;height:34px;border-radius:12px;background:linear-gradient(135deg,#3991ff,#0860e8);display:grid;place-items:center;color:white; }
+    .city { font-size:13px; color:#536174; background:#f5f7fa; padding:8px 11px; border-radius:20px; }
+    .map { height:39vh; min-height:260px; max-height:360px; position:relative; overflow:hidden; background:#e9f0f5; }
+    .map-grid { position:absolute; inset:-30px; transform:rotate(-9deg) scale(1.1); background:
+      linear-gradient(28deg,transparent 47%,#fff 48%,#fff 51%,transparent 52%),
+      linear-gradient(105deg,transparent 42%,#fff 43%,#fff 46%,transparent 47%),
+      linear-gradient(0deg,transparent 22%,#d5e2e9 22.5%,#d5e2e9 23.5%,transparent 24%),
+      linear-gradient(90deg,transparent 30%,#d5e2e9 30.5%,#d5e2e9 31.5%,transparent 32%),
+      #e9f0f5; background-size:190px 140px,210px 180px,90px 90px,110px 100px,auto; }
+    .river { position:absolute; width:150%; height:46px; left:-20%; top:42%; transform:rotate(-19deg); background:#bfe6f4; border:5px solid #d7f0f8; border-left:0;border-right:0; }
+    .road { position:absolute; height:8px; width:120%; background:#fff; border:1px solid #e0e7ed; border-left:0;border-right:0; transform:rotate(29deg); top:28%; left:-5%; }
+    .road.two { top:70%; transform:rotate(-36deg); }
+    .district { position:absolute; color:#9caeb9; font-size:11px; letter-spacing:2px; }
+    .district.a { top:18%;left:9%; }.district.b{top:57%;right:8%;}.district.c{bottom:12%;left:28%;}
+    .map-pill { position:absolute; top:16px; left:16px; background:#fff; border-radius:14px; padding:9px 12px; box-shadow:0 4px 16px #183b5a18; font-size:12px; }
+    .loc-dot { position:absolute; top:47%;left:52%; width:18px;height:18px;border-radius:50%;background:var(--blue);border:4px solid #fff;box-shadow:0 0 0 6px #1677ff25; }
+    .loc-label { position:absolute;top:calc(47% - 36px);left:calc(52% - 44px);background:#155ac6;color:#fff;font-size:11px;padding:6px 9px;border-radius:10px; }
+    .map-tools { position:absolute;right:14px;bottom:18px;display:grid;gap:8px; }
+    .round { width:42px;height:42px;border:0;border-radius:50%;background:#fff;box-shadow:0 3px 14px #19324b1c;font-size:18px; }
+    .sheet { position:relative; margin:-18px 12px 0; background:white; border-radius:24px 24px 0 0; padding:20px 14px 18px; box-shadow:0 -4px 24px #19324b0b; z-index:1; }
+    .handle { width:38px;height:4px;border-radius:4px;background:#e4e9ef;margin:-10px auto 16px; }
+    .heading { font-size:19px;font-weight:800;margin:0 0 4px; }
+    .subheading { color:var(--muted);font-size:12px;margin-bottom:16px; }
+    .field { display:flex;align-items:center;gap:11px;padding:13px 12px;background:#f6f8fb;border-radius:14px;margin-bottom:9px; }
+    .point { width:10px;height:10px;border-radius:50%;flex:none; }
+    .point.green { background:#17b26a; }.point.red { background:#ff6268; }
+    .field input { min-width:0;width:100%;border:0;outline:0;background:transparent;color:var(--ink);font-size:14px; }
+    .field input::placeholder { color:#97a3b3; }
+    .quick { display:flex;gap:9px;margin:12px 0 16px; }
+    .quick button { flex:1;border:1px solid var(--line);background:#fff;border-radius:12px;padding:10px 8px;color:#465469;font-size:12px; }
+    .quick button:active { background:#edf5ff; }
+    .ride-title { font-size:14px;font-weight:750;margin:18px 0 10px; }
+    .ride-options { display:grid;grid-template-columns:repeat(3,1fr);gap:8px; }
+    .ride { border:1.5px solid #edf0f5;background:#fff;border-radius:15px;padding:12px 5px;text-align:center; }
+    .ride.selected { border-color:var(--blue);background:#f0f6ff; }
+    .ride .car { font-size:24px;margin-bottom:5px; }.ride strong{display:block;font-size:12px}.ride small{color:var(--muted);font-size:10px;display:block;margin-top:4px}
+    .estimate { display:flex;align-items:center;justify-content:space-between;margin:16px 2px 12px; }
+    .estimate span { color:var(--muted);font-size:12px; }.estimate strong{font-size:22px}
+    .primary { width:100%;border:0;border-radius:15px;background:linear-gradient(100deg,#2688ff,#0965ed);color:#fff;font-weight:750;padding:15px;box-shadow:0 7px 16px #1677ff30; }
+    .primary:disabled { opacity:.5;box-shadow:none; }
+    .note { font-size:11px;color:#98a2b3;line-height:1.6;margin:10px 3px 0; }
+    .nav { position:fixed;z-index:5;bottom:0;left:50%;transform:translateX(-50%);width:min(520px,100%);display:flex;justify-content:space-around;background:#ffffffee;backdrop-filter:blur(16px);border-top:1px solid #edf0f4;padding:10px 8px calc(10px + env(safe-area-inset-bottom)); }
+    .nav button { border:0;background:transparent;color:#98a2b3;font-size:11px;display:grid;gap:4px;justify-items:center;min-width:60px; }
+    .nav button span { font-size:20px;line-height:1; }.nav button.active{color:var(--blue);font-weight:750;}
+    .screen { display:none; }.screen.active{display:block;}
+    .page { padding:22px 18px; }.page h2{font-size:23px;margin:4px 0 8px}.page p{color:var(--muted);font-size:13px;line-height:1.6}
+    .card { border:1px solid var(--line);border-radius:18px;padding:16px;margin:14px 0;background:#fff; }
+    .status { display:inline-block;background:#eaf8f0;color:#13844a;border-radius:20px;padding:6px 10px;font-size:12px;font-weight:700; }
+    .rowline { display:flex;justify-content:space-between;gap:12px;margin:12px 0;font-size:13px; }
+    .toast { position:fixed;z-index:20;bottom:94px;left:50%;transform:translate(-50%,12px);opacity:0;pointer-events:none;background:#172235;color:#fff;border-radius:12px;padding:12px 16px;font-size:13px;max-width:90%;transition:.2s;white-space:normal; }
+    .toast.show { opacity:1;transform:translate(-50%,0); }
+    .modal-backdrop { display:none;position:fixed;inset:0;background:#0b183866;z-index:30;align-items:flex-end;justify-content:center; }
+    .modal-backdrop.show { display:flex; }
+    .modal { background:#fff;width:min(520px,100%);border-radius:24px 24px 0 0;padding:24px 20px calc(24px + env(safe-area-inset-bottom)); }
+    .modal h3{margin:0 0 8px}.modal p{font-size:13px;color:var(--muted);line-height:1.6}
+    .modal-actions{display:flex;gap:10px;margin-top:18px}.secondary{flex:1;padding:13px;border:1px solid var(--line);background:#fff;border-radius:13px}.modal-actions .primary{flex:2}
+    @media (min-width:600px) { body{padding:22px 0}.app{border-radius:28px;box-shadow:0 12px 50px #1e3d5c14;min-height:850px}.nav{position:absolute;bottom:0;border-radius:0 0 28px 28px}.map{height:320px} }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="upload-box">
-            <h2>Upload files or images</h2>
-            <input type="file" id="fileInput" multiple>
-            <button onclick="uploadFiles()">Upload</button>
+<div class="app">
+  <header class="top">
+    <div class="brand"><div class="brand-icon">🚕</div><span>蓝行打车</span></div>
+    <button class="city" id="cityBtn" aria-label="选择城市">洛杉矶 ▾</button>
+  </header>
+
+  <main>
+    <section id="home" class="screen active">
+      <div class="map" aria-label="示意地图，不是真实地图">
+        <div class="map-grid"></div><div class="river"></div><div class="road"></div><div class="road two"></div>
+        <span class="district a">DOWNTOWN</span><span class="district b">MID CITY</span><span class="district c">PARK</span>
+        <div class="map-pill">📍 当前上车位置（示意）</div>
+        <div class="loc-label">你在这里</div><div class="loc-dot"></div>
+        <div class="map-tools"><button class="round" id="locateBtn" aria-label="定位">◎</button></div>
+      </div>
+      <div class="sheet">
+        <div class="handle"></div>
+        <h1 class="heading">现在出发，轻松抵达</h1>
+        <div class="subheading">填写行程信息，立即模拟叫车</div>
+        <label class="field"><span class="point green"></span><input id="pickup" placeholder="输入上车地点" value="当前位置（演示）" autocomplete="street-address"></label>
+        <label class="field"><span class="point red"></span><input id="destination" placeholder="你要去哪里？" autocomplete="street-address"></label>
+        <div class="quick">
+          <button data-dest="家">⌂　家</button><button data-dest="公司">▣　公司</button><button id="swapBtn">⇅　交换地点</button>
         </div>
-        <div class="file-list" id="fileList"></div>
-    </div>
+        <div class="ride-title">选择车型</div>
+        <div class="ride-options">
+          <button class="ride selected" data-ride="舒适型" data-price="18.5"><div class="car">🚙</div><strong>舒适型</strong><small>约 3 分钟</small></button>
+          <button class="ride" data-ride="快车" data-price="13.5"><div class="car">🚗</div><strong>快车</strong><small>约 5 分钟</small></button>
+          <button class="ride" data-ride="商务型" data-price="28.5"><div class="car">🚘</div><strong>商务型</strong><small>约 4 分钟</small></button>
+        </div>
+        <div class="estimate"><span>预估车费 · 演示价格</span><strong id="price">$18.50</strong></div>
+        <button class="primary" id="requestBtn">立即叫车</button>
+        <p class="note">演示版：不会联系真实司机，不会收取费用。地图和价格仅供界面体验。</p>
+      </div>
+    </section>
 
-    <script>
-        async function uploadFiles() {
-            const fileInput = document.getElementById('fileInput');
-            const files = fileInput.files;
-            if (!files.length) {
-                alert('Please select a file');
-                return;
-            }
+    <section id="orders" class="screen">
+      <div class="page"><h2>我的行程</h2><p>你的订单会显示在这里。当前版本使用本机浏览器保存演示订单。</p><div id="ordersList"></div></div>
+    </section>
 
-            const fileList = document.getElementById('fileList');
-            fileList.innerHTML = 'uploading...';
+    <section id="profile" class="screen">
+      <div class="page"><h2>个人中心</h2><p>欢迎使用蓝行打车演示版</p>
+        <div class="card"><div style="display:flex;align-items:center;gap:12px"><div style="width:52px;height:52px;border-radius:50%;background:#eaf3ff;display:grid;place-items:center;font-size:25px">👤</div><div><strong>访客用户</strong><div style="font-size:12px;color:#8a96a7;margin-top:5px">尚未登录</div></div></div></div>
+        <div class="card"><div class="rowline"><span>📋　行程记录</span><span>›</span></div><div class="rowline"><span>🎟️　优惠券</span><span>›</span></div><div class="rowline"><span>💳　支付方式</span><span>›</span></div><div class="rowline"><span>⚙️　设置</span><span>›</span></div></div>
+        <p>正式上线前，需要实现账号系统、隐私政策和安全的数据存储。</p>
+      </div>
+    </section>
+  </main>
 
-            for (let file of files) {
-                const formData = new FormData();
-                formData.append('file', file);
-
-                try {
-                    const response = await fetch('https://nopng.hanfu2022.workers.dev/upload', {
-                        method: 'POST',
-                        body: formData,
-                        signal: AbortSignal.timeout(30000)
-                    });
-
-                    if (response.ok) {
-                        const { url, expires } = await response.json();
-                        displayFile(file.name, url, expires);
-                    } else {
-                        throw new Error('upload fail');
-                    }
-                } catch (error) {
-                    console.error('upload fail:', error);
-                    alert('upload fail: ' + error.message);
-                }
-            }
-        }
-
-        function displayFile(name, url, expires) {
-            const fileList = document.getElementById('fileList');
-            const fileItem = document.createElement('div');
-            fileItem.className = 'file-item';
-            const expireTime = new Date(expires).toLocaleTimeString();
-            fileItem.innerHTML = `
-                <span>${name}</span>
-                <a href="${url}" target="_blank">download (Effective to ${expireTime})</a>
-            `;
-            fileList.appendChild(fileItem);
-        }
-    </script>
-  
-    <script>(function(s){s.dataset.zone='11224364',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+  <nav class="nav" aria-label="主导航">
+    <button class="active" data-screen="home"><span>⌂</span>首页</button>
+    <button data-screen="orders"><span>▤</span>行程</button>
+    <button data-screen="profile"><span>♙</span>我的</button>
+  </nav>
+</div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<div id="modalBackdrop" class="modal-backdrop">
+  <div class="modal">
+    <h3 id="modalTitle">正在为你叫车</h3>
+    <p id="modalText">这是模拟流程，不会联系真实司机。</p>
+    <div class="modal-actions"><button class="secondary" id="cancelModal">返回</button><button class="primary" id="confirmModal">模拟司机接单</button></div>
+  </div>
+</div>
+<script>
+(() => {
+  const $ = (s) => document.querySelector(s);
+  const $$ = (s) => [...document.querySelectorAll(s)];
+  let selectedRide = {name:"舒适型", price:18.5};
+  let currentOrder = null;
+  const toast = (message) => {
+    $("#toast").textContent = message;
+    $("#toast").classList.add("show");
+    clearTimeout(window.__toastTimer);
+    window.__toastTimer = setTimeout(() => $("#toast").classList.remove("show"), 2600);
+  };
+  const showScreen = (name) => {
+    $$(".screen").forEach(el => el.classList.toggle("active", el.id === name));
+    $$(".nav button").forEach(el => el.classList.toggle("active", el.dataset.screen === name));
+    if (name === "orders") renderOrders();
+    window.scrollTo({top:0, behavior:"smooth"});
+  };
+  $$(".nav button").forEach(btn => btn.addEventListener("click", () => showScreen(btn.dataset.screen)));
+  $$(".ride").forEach(btn => btn.addEventListener("click", () => {
+    $$(".ride").forEach(el => el.classList.remove("selected"));
+    btn.classList.add("selected");
+    selectedRide = {name:btn.dataset.ride, price:Number(btn.dataset.price)};
+    $("#price").textContent = "$" + selectedRide.price.toFixed(2);
+  }));
+  $$("[data-dest]").forEach(btn => btn.addEventListener("click", () => {
+    $("#destination").value = btn.dataset.dest === "家" ? "我的家（示例地址）" : "公司（示例地址）";
+    toast("已填入" + btn.dataset.dest + "示例地址");
+  }));
+  $("#swapBtn").addEventListener("click", () => {
+    const a = $("#pickup").value; $("#pickup").value = $("#destination").value; $("#destination").value = a;
+  });
+  $("#cityBtn").addEventListener("click", () => toast("城市选择功能可在下一版接入"));
+  $("#locateBtn").addEventListener("click", () => {
+    if (!navigator.geolocation) return toast("此浏览器不支持定位");
+    navigator.geolocation.getCurrentPosition(
+      p => toast(`已取得定位：${p.coords.latitude.toFixed(4)}, ${p.coords.longitude.toFixed(4)}（尚未接入真实地图）`),
+      () => toast("未取得定位，请检查浏览器的位置权限"),
+      {enableHighAccuracy:true, timeout:8000}
+    );
+  });
+  const getOrders = () => { try { return JSON.parse(localStorage.getItem("lanxing-orders") || "[]"); } catch { return []; } };
+  const saveOrders = (items) => localStorage.setItem("lanxing-orders", JSON.stringify(items));
+  $("#requestBtn").addEventListener("click", () => {
+    const pickup = $("#pickup").value.trim(), destination = $("#destination").value.trim();
+    if (!pickup || !destination) return toast("请填写上车地点和目的地");
+    if (pickup === destination) return toast("上车地点和目的地不能相同");
+    currentOrder = {id:Date.now(), pickup, destination, ride:selectedRide.name, price:selectedRide.price, status:"等待司机接单", time:new Date().toLocaleString()};
+    $("#modalTitle").textContent = "确认叫车？";
+    $("#modalText").textContent = `${pickup} → ${destination}。车型：${selectedRide.name}，演示价格：$${selectedRide.price.toFixed(2)}。不会联系真实司机或收费。`;
+    $("#confirmModal").textContent = "模拟司机接单";
+    $("#modalBackdrop").classList.add("show");
+  });
+  $("#cancelModal").addEventListener("click", () => $("#modalBackdrop").classList.remove("show"));
+  $("#confirmModal").addEventListener("click", () => {
+    if (!currentOrder) return;
+    currentOrder.status = "司机已接单（模拟）";
+    const orders = getOrders(); orders.unshift(currentOrder); saveOrders(orders.slice(0,30));
+    $("#modalBackdrop").classList.remove("show");
+    toast("模拟司机已接单！");
+    renderOrders();
+    showScreen("orders");
+  });
+  function renderOrders() {
+    const list = getOrders();
+    const target = $("#ordersList");
+    if (!list.length) { target.innerHTML = '<div class="card"><strong>暂无行程</strong><p>完成一次模拟叫车后，订单会显示在这里。</p></div>'; return; }
+    target.innerHTML = list.map(o => `<div class="card"><span class="status">${o.status}</span><div class="rowline"><strong>${escapeHTML(o.pickup)}</strong><span>上车</span></div><div class="rowline"><strong>${escapeHTML(o.destination)}</strong><span>目的地</span></div><div class="rowline"><span>${escapeHTML(o.ride)} · ${escapeHTML(o.time)}</span><strong>$${Number(o.price).toFixed(2)}</strong></div><button class="primary" data-finish="${o.id}">完成模拟行程</button></div>`).join("");
+    $$("[data-finish]").forEach(btn => btn.addEventListener("click", () => {
+      const orders = getOrders().map(o => o.id === Number(btn.dataset.finish) ? {...o,status:"行程已完成（模拟）"} : o);
+      saveOrders(orders); renderOrders(); toast("模拟行程已完成");
+    }));
+  }
+  function escapeHTML(s) { return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+  if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
+    window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(() => {}));
+  }
+})();
+</script>
 </body>
 </html>
