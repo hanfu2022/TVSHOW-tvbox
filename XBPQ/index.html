@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#101827">
+  <meta name="description" content="仅支持从手机桌面启动的二维码扫描 PWA">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <title>扫码通行</title>
+  <link rel="stylesheet" href="./style.css">
+  <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <div class="brand-mark" aria-hidden="true">⌗</div>
+      <div>
+        <div class="brand-name">扫码通行</div>
+        <div class="brand-subtitle">PWA QR SCANNER</div>
+      </div>
+      <span id="modeBadge" class="mode-badge">检查启动方式…</span>
+    </header>
+
+    <section id="installGate" class="panel gate-panel" hidden>
+      <div class="illustration" aria-hidden="true">
+        <div class="phone-frame"><div class="phone-screen"><span class="qr-symbol">▦</span><span class="app-dot"></span></div></div>
+        <span class="spark spark-one">✦</span><span class="spark spark-two">✧</span>
+      </div>
+      <p class="eyebrow">需要从桌面启动</p>
+      <h1 id="gateTitle">先安装到手机桌面</h1>
+      <p id="gateDescription" class="muted">为了继续使用扫码功能，请先将本应用添加到手机主屏幕，然后关闭当前页面，从桌面图标重新打开。</p>
+      <button id="installButton" class="primary-button" hidden>安装到桌面</button>
+      <div id="installHelp" class="help-box"></div>
+      <div class="steps">
+        <div><span>1</span>添加到主屏幕</div>
+        <div><span>2</span>返回手机桌面</div>
+        <div><span>3</span>点击「扫码通行」图标</div>
+      </div>
+      <button id="recheckButton" class="secondary-button">我已安装，重新检查</button>
+    </section>
+
+    <section id="scannerPanel" class="panel scanner-panel" hidden>
+      <div class="scanner-heading">
+        <div>
+          <p class="eyebrow">DESKTOP LAUNCH VERIFIED</p>
+          <h1>二维码扫描</h1>
+          <p class="muted">将二维码放入取景框内，识别结果会显示在下方。</p>
+        </div>
+        <span class="ready-pill"><i></i> 已就绪</span>
+      </div>
+      <div id="reader" class="reader"></div>
+      <div class="button-row">
+        <button id="startScanButton" class="primary-button">开启摄像头</button>
+        <button id="stopScanButton" class="secondary-button" disabled>停止扫描</button>
+      </div>
+      <div id="scanStatus" class="status-line" role="status">点击“开启摄像头”并允许使用相机。</div>
+      <div id="resultBox" class="result-box" hidden>
+        <div class="result-label">识别结果</div>
+        <div id="scanResult" class="result-text"></div>
+        <div class="button-row">
+          <button id="copyResultButton" class="secondary-button">复制结果</button>
+          <button id="openResultButton" class="primary-button" hidden>打开链接</button>
+        </div>
+      </div>
+      <p class="privacy-note">相机仅用于本机扫码。请只打开你信任的二维码链接。</p>
+    </section>
+
+    <footer>扫码通行 · 需要 HTTPS 或 localhost 才能使用摄像头与 PWA 安装功能</footer>
+  </main>
+  <script src="./app.js"></script>
+</body>
+</html>
