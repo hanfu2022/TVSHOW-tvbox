@@ -1,3 +1,27 @@
+let deferredInstallPrompt = null;
+
+window.addEventListener("beforeinstallprompt", (event) => {
+  event.preventDefault();
+  deferredInstallPrompt = event;
+});
+
+document.getElementById("installButton").addEventListener("click", async () => {
+  if (!deferredInstallPrompt) {
+    alert("请通过浏览器菜单选择“安装应用”或“添加到主屏幕”。");
+    return;
+  }
+
+  deferredInstallPrompt.prompt();
+
+  const choice = await deferredInstallPrompt.userChoice;
+
+  if (choice.outcome === "accepted") {
+    alert("已确认安装，请等待安装完成，然后从桌面图标打开应用。");
+  }
+
+  deferredInstallPrompt = null;
+});
+
 const $ = (id) => document.getElementById(id);
 
 const installGate = $("installGate");
